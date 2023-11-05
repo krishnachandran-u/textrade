@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 w-full border border-b-2 flex justify-center sm:gap-5 gap-2 p-2 items-center text-lg ">
+      <nav className="w-full border border-b-2 flex justify-center sm:gap-5 gap-2 p-2 items-center text-lg ">
         <p className='hidden sm:flex'>textrade.store</p>
         <Searchbar/>
         <Button className="hidden sm:flex">
