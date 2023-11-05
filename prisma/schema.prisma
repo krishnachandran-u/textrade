@@ -10,68 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id          String     @id @default(uuid())
-  user_name   String
-  name        String
-  email       String
-  about       String
-  year        String
-  branch      branches   @relation(fields: [branchId], references: [id])
-  branchId    String
-  college     colleges   @relation(fields: [collegeId], references: [id])
-  collegeId   String
-  cart        cart?
-  products    products[]
-  profile_pic images?
+model Users {
+  id                String     @id @default(uuid())
+  user_name         String
+  name              String
+  email             String
+  passout_year      String
+  location          String
+  verification_code String
+  verification_date String
+  verified          Boolean    @default(false)
+  branchId          String
+  college           Colleges   @relation(fields: [collegeId], references: [id])
+  collegeId         String
+  cart              Cart[]
+  products          Products[]
+  profile_pic       Images?
+  Branches          Branches?  @relation(fields: [branchesId], references: [id])
+  branchesId        String?
 }
 
-model products {
+model Products {
   id          String     @id @default(uuid())
   name        String
   price       Decimal
   description String
   location    String
-  category    categories @relation(fields: [categoryId], references: [id])
+  category    Categories @relation(fields: [categoryId], references: [id])
   categoryId  String
-  carts       cart[]     @relation("CartToProduct")
-  seller      users      @relation(fields: [sellerId], references: [id])
+  carts       Cart[]     @relation("CartToProduct")
+  seller      Users      @relation(fields: [sellerId], references: [id])
   sellerId    String
-  images      images[]
+  sold        Boolean    @default(false)
+  images      Images[]
 }
 
-model cart {
+model Cart {
   id       String     @id @default(uuid())
-  products products[] @relation("CartToProduct")
-  user     users      @relation(fields: [userId], references: [id])
+  products Products[] @relation("CartToProduct")
+  user     Users      @relation(fields: [userId], references: [id])
   userId   String     @unique
 }
 
-model images {
+model Images {
   id        String   @id @default(uuid())
   url       String
-  product   products @relation(fields: [productId], references: [id])
+  product   Products @relation(fields: [productId], references: [id])
   productId String
-  users     users    @relation(fields: [userId], references: [id])
+  users     Users    @relation(fields: [userId], references: [id])
   userId    String   @unique
 }
 
-model categories {
+model Categories {
   id       String     @id @default(uuid())
   name     String
-  products products[]
+  products Products[]
 }
 
-model colleges {
+model Colleges {
   id       String     @id @default(uuid())
   name     String
-  branches branches[] @relation("CollegeBranch")
-  users    users[]
+  branches Branches[] @relation("CollegeBranch")
+  users    Users[]
 }
 
-model branches {
+model Branches {
   id       String     @id @default(uuid())
   name     String
-  colleges colleges[] @relation("CollegeBranch")
-  users    users[]
+  colleges Colleges[] @relation("CollegeBranch")
+  users    Users[]
 }
