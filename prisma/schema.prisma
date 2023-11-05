@@ -11,23 +11,24 @@ datasource db {
 }
 
 model Users {
-  id                String     @id @default(uuid())
-  user_name         String
-  name              String
-  email             String
-  passout_year      String
-  location          String
-  verification_code String
-  verification_date String
-  verified          Boolean    @default(false)
-  branchId          String
-  college           Colleges   @relation(fields: [collegeId], references: [id])
-  collegeId         String
-  cart              Cart[]
-  products          Products[]
-  profile_pic       Images?
-  Branches          Branches?  @relation(fields: [branchesId], references: [id])
-  branchesId        String?
+  id               String     @id @default(uuid())
+  user_name        String
+  name             String
+  email            String
+  phoneNo          Int  
+  passout_year     String
+  location         String
+  activationKey    String
+  activationSentAt String
+  verified         Boolean    @default(false)
+  branchId         String
+  college          Colleges   @relation(fields: [collegeId], references: [id])
+  collegeId        String
+  cart             Cart[]
+  products         Products[]
+  profile_pic      Images?
+  Branches         Branches?  @relation(fields: [branchesId], references: [id])
+  branchesId       String?
 }
 
 model Products {
