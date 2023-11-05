@@ -17,6 +17,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        'bg-pl1-yellow': '#F99417',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
