@@ -10,21 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model user {
-//   id             String          @id @default(uuid())
-//   age            Int
-//   name           String
-//   email          String
-//   phone          Int
-//   role           Role            @default(BASIC)
-//   writtenposts   post[]          @relation("writtenposts")
-//   favorateposts  post[]          @relation("favorateposts")
-//   UserPreference UserPreference?
-
-//   @@unique([age, name])
-//   @@index([email])
-// }
-
 model users {
   id          String     @id @default(uuid())
   user_name   String
@@ -38,7 +23,7 @@ model users {
   collegeId   String
   cart        cart?
   products    products[]
-  profile_pic images     @relation(fields: [profile_pic], references: [id])
+  profile_pic images?
 }
 
 model products {
