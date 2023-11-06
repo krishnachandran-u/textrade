@@ -20,7 +20,7 @@ model Users {
   passout_year     String
   location         String
   activationKey    String
-  activationSentAt String
+  activationSentAt DateTime
   verified         Boolean    @default(false)
   branchId         String
   college          Colleges   @relation(fields: [collegeId], references: [id])
@@ -38,6 +38,7 @@ model Products {
   price       Decimal
   description String
   location    String
+  dateAdd     DateTime   @default(now())
   category    Categories @relation(fields: [categoryId], references: [id])
   categoryId  String
   carts       Cart[]     @relation("CartToProduct")
