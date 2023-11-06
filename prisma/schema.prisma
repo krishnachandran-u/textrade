@@ -12,10 +12,10 @@ datasource db {
 
 model Users {
   id               String     @id @default(uuid())
-  user_name        String
+  user_name        String     @unique
   name             String
   email            String
-  phoneNo          Int  
+  phoneNo          Int
   passout_year     String
   location         String
   activationKey    String
