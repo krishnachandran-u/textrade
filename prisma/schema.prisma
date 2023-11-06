@@ -55,7 +55,7 @@ model Cart {
 
 model Images {
   id        String   @id @default(uuid())
-  url       String
+  url       String   @unique
   product   Products @relation(fields: [productId], references: [id])
   productId String
   users     Users    @relation(fields: [userId], references: [id])
@@ -64,20 +64,20 @@ model Images {
 
 model Categories {
   id       String     @id @default(uuid())
-  name     String
+  name     String     @unique
   products Products[]
 }
 
 model Colleges {
   id       String     @id @default(uuid())
-  name     String
+  name     String     @unique
   branches Branches[] @relation("CollegeBranch")
   users    Users[]
 }
 
 model Branches {
   id       String     @id @default(uuid())
-  name     String
+  name     String     @unique
   colleges Colleges[] @relation("CollegeBranch")
   users    Users[]
 }
