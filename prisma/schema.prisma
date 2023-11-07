@@ -16,7 +16,7 @@ model Users {
   name             String
   note             String
   email            String
-  phoneNo          Int
+  phoneNo          BigInt
   passout_year     String
   location         String
   activationKey    String
