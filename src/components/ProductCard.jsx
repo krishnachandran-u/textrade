@@ -13,7 +13,7 @@ export default function ProductCard() {
     <Card className="min-w-[280px] hover:shadow-2xl">
       <div className="h-[410px]">
         <CardContent>
-          <Image src="https://i.ebayimg.com/images/g/3-AAAOSwjL1f59oG/s-l640.jpg" alt="Product image" width={200} height={200} className="overflow-hidden border-b-2 my-2 mx-auto" />
+          <Image src="https://i.ibb.co/D46XN9S/Algorithms-clrs.jpg" alt="Product image" width={200} height={200} className="overflow-hidden border-b-2 my-2 mx-auto" />
           <h1 className="font-semibold">Agorithms CLRS</h1>
           <span className="text-slate-500 text-sm">Small discription </span>
           <div className="flex gap-1 items-center mt-1">
