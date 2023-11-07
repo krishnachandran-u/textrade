@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 export default function ProfileCard() {
     return (
         <main>
-            <div className = "border rounded-lg shadow-md w-[400px] h-[800px] flex flex-col items-center p-8 gap-5">
+            <div className = "border rounded-lg shadow-md sm:w-[400px] w-full flex flex-col items-center p-8 gap-5">
                 <div className = "">
                     <Avatar className = "w-30 h-30">
                         <AvatarImage src="https://github.com/shadcn.png" />
