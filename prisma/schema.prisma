@@ -29,8 +29,7 @@ model Users {
   cart             Cart[]
   products         Products[]
   profile_pic      String?
-  branch           Branches?  @relation(fields: [branchesId], references: [id])
-  branchesId       String?
+  branch           Branches?  @relation(fields: [branchId], references: [id])
 }
 
 model Products {
