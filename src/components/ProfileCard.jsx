@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 export default function ProfileCard() {
     return (
         <main>
-            <div className = "border rounded-lg shadow-md sm:w-[400px] w-full flex flex-col items-center p-8 gap-5">
+            <div className = "border rounded-lg shadow-md sm:w-[400px] w-full flex flex-col items-center p-8">
                 <div className = "">
                     <Avatar className = "w-30 h-30">
                         <AvatarImage src="https://github.com/shadcn.png" />
@@ -22,11 +22,11 @@ export default function ProfileCard() {
                     <p className = "text-gray-700 italic">@username</p>
                 </div>
                 <div className = "w-full gap-2 flex flex-col">
-                    <Button variant = "Primary" className = "w-full bg-gray-500">
-                        <p className = "text-white">Edit Profile</p>
+                    <Button className = "bg-gray-500">
+                        <p className = "">Edit Profile</p>
                     </Button>
                     <Button className = "bg-black">
-                        <p variant = "secondary" className = "">College of Engineering, Trivandrum</p>
+                        <p className = "">College of Engineering, Trivandrum</p>
                     </Button>
                 </div>
                 <div className = "flex flex-col w-full gap-2">
