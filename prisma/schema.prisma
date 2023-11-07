@@ -27,7 +27,7 @@ model Users {
   collegeId        String
   cart             Cart[]
   products         Products[]
-  profile_pic      Images?
+  profile_pic      String?
   Branches         Branches?  @relation(fields: [branchesId], references: [id])
   branchesId       String?
 }
@@ -60,8 +60,6 @@ model Images {
   url       String   @unique
   product   Products @relation(fields: [productId], references: [id])
   productId String
-  users     Users    @relation(fields: [userId], references: [id])
-  userId    String   @unique
 }
 
 model Categories {
