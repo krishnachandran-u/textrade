@@ -1,18 +1,20 @@
 -- CreateTable
 CREATE TABLE "Users" (
     "id" TEXT NOT NULL,
-    "user_name" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "name" TEXT,
+    "note" TEXT,
     "email" TEXT NOT NULL,
-    "phoneNo" INTEGER NOT NULL,
-    "passout_year" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
-    "activationKey" TEXT NOT NULL,
-    "activationSentAt" TEXT NOT NULL,
+    "phoneNo" BIGINT,
+    "passoutyear" TEXT,
+    "location" TEXT,
+    "activationKey" TEXT,
+    "password" TEXT NOT NULL,
+    "activationSentAt" TIMESTAMP(3),
     "verified" BOOLEAN NOT NULL DEFAULT false,
-    "branchId" TEXT NOT NULL,
+    "branchId" TEXT,
     "collegeId" TEXT NOT NULL,
-    "branchesId" TEXT,
+    "profile_pic" TEXT,
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
@@ -22,8 +24,9 @@ CREATE TABLE "Products" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "price" DECIMAL(65,30) NOT NULL,
-    "description" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
+    "description" TEXT,
+    "location" TEXT,
+    "dateAdd" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "categoryId" TEXT NOT NULL,
     "sellerId" TEXT NOT NULL,
     "sold" BOOLEAN NOT NULL DEFAULT false,
@@ -44,7 +47,6 @@ CREATE TABLE "Images" (
     "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
 
     CONSTRAINT "Images_pkey" PRIMARY KEY ("id")
 );
@@ -86,16 +88,16 @@ CREATE TABLE "_CollegeBranch" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_user_name_key" ON "Users"("user_name");
+CREATE UNIQUE INDEX "Users_username_key" ON "Users"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Cart_userId_key" ON "Cart"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Images_url_key" ON "Images"("url");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Images_userId_key" ON "Images"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Categories_name_key" ON "Categories"("name");
@@ -122,7 +124,7 @@ CREATE INDEX "_CollegeBranch_B_index" ON "_CollegeBranch"("B");
 ALTER TABLE "Users" ADD CONSTRAINT "Users_collegeId_fkey" FOREIGN KEY ("collegeId") REFERENCES "Colleges"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Users" ADD CONSTRAINT "Users_branchesId_fkey" FOREIGN KEY ("branchesId") REFERENCES "Branches"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Users" ADD CONSTRAINT "Users_branchId_fkey" FOREIGN KEY ("branchId") REFERENCES "Branches"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Products" ADD CONSTRAINT "Products_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -135,9 +137,6 @@ ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Images" ADD CONSTRAINT "Images_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Images" ADD CONSTRAINT "Images_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CartToProduct" ADD CONSTRAINT "_CartToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Cart"("id") ON DELETE CASCADE ON UPDATE CASCADE;

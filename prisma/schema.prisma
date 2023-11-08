@@ -15,7 +15,7 @@ model Users {
   username         String     @unique
   name             String?
   note             String?
-  email            String
+  email            String     @unique
   phoneNo          BigInt?
   passoutyear      String?
   location         String?
@@ -23,7 +23,7 @@ model Users {
   password         String
   activationSentAt DateTime?
   verified         Boolean    @default(false)
-  branchId         String
+  branchId         String?
   college          Colleges   @relation(fields: [collegeId], references: [id])
   collegeId        String
   cart             Cart[]
