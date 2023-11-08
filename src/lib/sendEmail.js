@@ -6,7 +6,7 @@ import verifyEmailForm from "@/components/VerificationEmail"
 
 const resend = new Resend(process.env.RESENT_API_KEY)
 
-export const sendEmail = async (email,activationUrl) => {
+export const sendEmail = async (email,username,activationUrl) => {
   let data
   try{
       data = resend.emails.send({
@@ -16,6 +16,7 @@ export const sendEmail = async (email,activationUrl) => {
       react: React.createElement(verifyEmailForm, {
         userEmail:email,
         activationUrl:activationUrl,
+        userName:username,
       }),
     })
   }

@@ -14,6 +14,7 @@ import { Tailwind } from "@react-email/tailwind";
 export default function verifyEmailForm({
   activationUrl,
   userEmail,
+  userName,
 }) {
   return (
     <Html>
@@ -28,6 +29,7 @@ export default function verifyEmailForm({
               </Heading>
               <Hr />
               <Text>Email: {userEmail}</Text>
+              <Text>Username: {userName}</Text>
               <Text>Click the link to activate your account: {activationUrl}</Text>
             </Section>
           </Container>
