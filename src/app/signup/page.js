@@ -37,7 +37,7 @@ import { DialogBox } from "@/components/verifyEmailDialog"
 import { Toaster } from "@/components/ui/toaster"
 
 const colleges = [
-  { label: "College of Engineering Trivandrum", value: "cet" },
+  { label: "College of Engineering Trivandrum", value: "College of Engineering Trivandrum" },
   { label: "TKM college of Engineering Kollam", value: "tkmce" },
   { label: "MA college", value: "mace" },
   { label: "Gov Engineering college Trissur", value: "gect" },
@@ -93,16 +93,16 @@ export default function InputForm() {
   })
 
   async function onSubmit(data) {
-    await axios.post('api/register',JSON.stringify(data)).then(async (res) => {
+    await axios.post('api/auth/signup',JSON.stringify(data)).then(async (res) => {
       if(res.status == 201){
         toast({title: "Account Created", description: "Your account has been created successfully"})
-        await sendVerificationEmail(data.email)
         setOpenVerifyEmailDialog(true)
+        await sendVerificationEmail(data.username,data.email)
         setEmail(data.email)
       }
       else if(res.status == 207){
         toast({title: "Account Found, Not activated", description: "Account found, but not activated.You have to activate your account"})
-        await sendVerificationEmail(data.email)
+        await sendVerificationEmail(data.username,data.email)
         setOpenVerifyEmailDialog(true)
         setEmail(data.email)
       }

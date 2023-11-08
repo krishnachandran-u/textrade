@@ -5,27 +5,33 @@ import { hash } from "bcryptjs"
 // api than accept a post request to register a user
 export async function POST(req){
   try{
-    const {name,username, email, password, department, year} = await req.json()
+    const {name, username, email, password, college} = await req.json()
     //Check if user already exists
-    const user = await prismadb.Users.findUnique({
+    const user = await prismadb.Users.findFirst({
         where: {
-          email: email
+          OR:[
+            {email: email},
+            {username: username}
+          ]
         },
     })
-    if(user && user.verified) {
+    if(user && user?.verified) {
       return new NextResponse(JSON.stringify({message:"User already exists"}),{status: 208})
     }
-    else if(user && !user.verified){
+    else if(user && !user?.verified){
       return new NextResponse(JSON.stringify({message:"User already exists but not activated"}),{status: 207})
     }
     //Create user
-    await prismadb.user.create({
+    await prismadb.users.create({
       data:{
         name: name,
-        user_name: username,
-        email:email,
-        department: department,
-        year: Number(year),
+        username: username,
+        email: email,
+        college: {
+          connect: {
+            name: college,
+          }
+        },
         password: await hash(password, 10)
       }
     })
