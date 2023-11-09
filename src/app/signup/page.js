@@ -107,7 +107,14 @@ export default function InputForm() {
         setEmail(data.email)
       }
       else if(res.status == 208){
-        form.setError('email', { type: 'custom', message: 'Email already registered'}, { shouldFocus: true });
+        form.setError('email', { type: 'custom', message: 'User already exist'}, { shouldFocus: true });
+        form.setError('username', { type: 'custom', message: 'User already exist'}, { shouldFocus: false });
+      }
+      else if(res.status == 209){
+        form.setError('email', { type: 'custom', message: 'User already registered with this email'}, { shouldFocus: true });
+      }
+      else if(res.status == 210){
+        form.setError('username', { type: 'custom', message: 'Username already taken'}, { shouldFocus: true });
       }
     }).catch((err) => {
       toast({title: "Error", description: "Something went wrong"})

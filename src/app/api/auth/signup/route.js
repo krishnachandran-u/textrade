@@ -15,11 +15,17 @@ export async function POST(req){
           ]
         },
     })
-    if(user && user?.verified) {
+    if(user && user?.verified && user?.email == email && user?.username == username) {
       return new NextResponse(JSON.stringify({message:"User already exists"}),{status: 208})
     }
-    else if(user && !user?.verified){
+    else if(user && !user?.verified && user?.email == email && user?.username == username){
       return new NextResponse(JSON.stringify({message:"User already exists but not activated"}),{status: 207})
+    }
+    else if(user && user?.email == email){
+      return new NextResponse(JSON.stringify({message:"User already exist with this email"}),{status: 209})
+    }
+    else if(user && user?.username == username){
+      return new NextResponse(JSON.stringify({message:"Username already taken"}),{status: 210})
     }
     //Create user
     await prismadb.users.create({
