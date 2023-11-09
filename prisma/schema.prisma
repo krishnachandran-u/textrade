@@ -12,18 +12,18 @@ datasource db {
 
 model Users {
   id               String     @id @default(uuid())
-  user_name        String     @unique
-  name             String
-  note             String
-  email            String
-  phoneNo          BigInt
-  passout_year     String
-  location         String
-  activationKey    String
+  username         String     @unique
+  name             String?
+  note             String?
+  email            String     @unique
+  phoneNo          BigInt?
+  passoutyear      String?
+  location         String?
+  activationKey    String?
   password         String
-  activationSentAt DateTime
+  activationSentAt DateTime?
   verified         Boolean    @default(false)
-  branchId         String
+  branchId         String?
   college          Colleges   @relation(fields: [collegeId], references: [id])
   collegeId        String
   cart             Cart[]
@@ -36,8 +36,8 @@ model Products {
   id          String     @id @default(uuid())
   name        String
   price       Decimal
-  description String
-  location    String
+  description String?
+  location    String?
   dateAdd     DateTime   @default(now())
   category    Categories @relation(fields: [categoryId], references: [id])
   categoryId  String
