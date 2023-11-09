@@ -9,7 +9,7 @@ export const authOptions = {
       name: 'Credentials',
       credentials: {},
       async authorize(credentials, req) {
-        const user = await prismadb.Users.findUnique({
+        const user = await prismadb.users.findUnique({
           where: {
             email: credentials.email
           }
