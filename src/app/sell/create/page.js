@@ -23,10 +23,10 @@ const FormSchema = z.object({
     message: "Title must be at least 8 characters.",
   }),
   discription: z.string().min(15, {
-    message: "Title must be at least 15 characters.",
+    message: "Discription must be at least 15 characters.",
   }),
-  discription: z.string().min(1, {
-    message: "price must be at least 1 characters.",
+  price: z.number().gte(10, {
+    message: "price must be at least 5₹.",
   }),
 })
 
@@ -42,8 +42,8 @@ export default function CreateProductPage() {
     defaultValues:{
       title:'',
       discription:'',
-      price:''
-    }
+      price:'',
+    },
   })
 
   async function onSubmit(data) {
@@ -105,7 +105,7 @@ export default function CreateProductPage() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Price" {...field} className="text-xl py-6 font-semibold sm:mt-0 w-20"/>
+                  <Input placeholder="Price" {...field} {...form.register("price",{ setValueAs: (v) => v === "" ? undefined : parseInt(v, 10)})} className="text-xl py-6 font-semibold sm:mt-0 w-20"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
