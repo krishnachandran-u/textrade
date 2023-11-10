@@ -19,10 +19,9 @@ function SellPage() {
               <h2 className = "">Sold Products</h2>
           </div>
           <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start p-4 gap-2">
-            <ProductCard hideCart={true}/>
-            <ProductCard hideCart={true}/>
-            <ProductCard hideCart={true}/>
-            <ProductCard hideCart={true}/>
+            <ProductCard hideCart={true} disableCard={true}/>
+            <ProductCard hideCart={true} disableCard={true}/>
+            <ProductCard hideCart={true} disableCard={true}/>
           </div>
       </div>
     </div>
