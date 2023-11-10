@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { SingleImageDropzone } from "@/components/ImageDropZone"
 import { useEdgeStore } from "@/providers/EdgeStoreProvider"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {BiUpload} from 'react-icons/bi'
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import axios from "axios"
 
 const FormSchema = z.object({
   title: z.string().min(8, {
@@ -47,7 +48,51 @@ export default function CreateProductPage() {
   })
 
   async function onSubmit(data) {
+    if(urls.url === undefined){
+      return console.log("Please upload an image of product.")
+      // return toast.error("Please upload an image of product.")
+    }
+    await edgestore.productImages.confirmUpload({
+      url: urls.url,
+    });
+
+    axios.post('/api/createProduct', {
+      name: data.title,
+      username: "irfan",
+      price: data.price,
+      description: data.discription,
+      imageUrls: [urls.url],
+      categoryname: "book",
+      location: "Product location",
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   } 
+  
+  useEffect(() => {
+    if (file) {
+      const uploadImage = async () =>{
+        const res = await edgestore.productImages.upload({
+          file,
+          options: {
+            temporary: true,
+          },
+          onProgressChange: (progress) => {
+            setProgress(progress);
+          },
+        });
+        setUrls({
+          url: res.url,
+          thumbnailUrl: res.thumbnailUrl,
+        });
+      }
+      uploadImage();
+    }
+  },[file])
 
   return(
     <div className="flex w-full sm:mt-20 flex-col sm:flex-row justify-center">
@@ -112,24 +157,7 @@ export default function CreateProductPage() {
             )}
           />
           <div className="flex gap-4 sm:mt-5 mt-3">
-            <Button
-              className="flex text-md"
-              type="submit"
-              onClick={async () => {
-                if (file) {
-                  const res = await edgestore.productImages.upload({
-                    file,
-                    onProgressChange: (progress) => {
-                      setProgress(progress);
-                    },
-                  });
-                  setUrls({
-                    url: res.url,
-                    thumbnailUrl: res.thumbnailUrl,
-                  });
-                }
-              }}
-            >
+            <Button className="flex text-md" type="submit">
               <BiUpload className='mr-2 h-4 w-4'/> Upload
             </Button>
           </div>
