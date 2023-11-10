@@ -28,7 +28,7 @@ export default function CreateProductPage() {
           />
           <div className="h-[7px] w-full border rounded overflow-hidden mt-2">
             <div
-              className="h-full bg-white transition-all duration-150"
+              className="h-full bg-slate-400 transition-all duration-150"
               style={{
                 width: `${progress}%`,
               }}
@@ -53,7 +53,7 @@ export default function CreateProductPage() {
             className="flex text-md"
             onClick={async () => {
               if (file) {
-                const res = await edgestore.publicFiles.upload({
+                const res = await edgestore.productImages.upload({
                   file,
                   onProgressChange: (progress) => {
                     setProgress(progress);
