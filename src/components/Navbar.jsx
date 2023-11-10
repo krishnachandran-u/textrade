@@ -1,10 +1,15 @@
+'use client'
 import {BsCartCheck} from 'react-icons/bs'
 import {TbShoppingCartDollar} from 'react-icons/tb'
 import Searchbar from './Searchbar'
 import Profile from './Profile'
 import { Button } from './ui/button'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
+  const pathname = usePathname()
+  const showHeader = (pathname === '/login' || pathname === '/signup') ? false : true;
+  if(!showHeader) return null;
 
   return (
     <>
