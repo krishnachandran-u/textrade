@@ -5,10 +5,10 @@ import {
 import Image from "next/image"
 import { BsCartPlus } from "react-icons/bs"
 import { Button } from "./ui/button"
-import { Badge } from "./ui/badge"
 import { Avatar,AvatarImage,AvatarFallback } from "./ui/avatar"
+import { cn } from "@/lib/utils"
 
-export default function ProductCard() {
+export default function ProductCard({hideCart}) {
   return(
     <Card className="min-w-[280px] hover:shadow-2xl">
       <div className="h-[410px]">
@@ -24,9 +24,8 @@ export default function ProductCard() {
             <span className="text-slate-500 text-sm">Seller name</span>
           </div>
           <div className="flex justify-between mt-2 items-center">
-            {/* <Badge variant='outline' className='text-sm p-2'>500₹</Badge> */}
             <div className='text-sm p-2 border-2 rounded-md'>500₹</div>
-            <Button className='rounded-md text-md'>
+            <Button className={cn(hideCart?'hidden':'','rounded-md text-md')}>
               <BsCartPlus/>
             </Button>
           </div>
