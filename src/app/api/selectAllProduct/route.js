@@ -18,6 +18,7 @@ export async function GET(req) {
                 seller: {
                     select: {
                         username: true,
+                        profile_pic: true,
                     },
                 },
                 images: {
@@ -30,8 +31,7 @@ export async function GET(req) {
 				take : parseInt(take),
         });
 
-        const obj = {};
-        obj["data"] = products;
+        const obj = products;
 
         return new NextResponse(JSON.stringify(obj), { status: 200 })
     }
