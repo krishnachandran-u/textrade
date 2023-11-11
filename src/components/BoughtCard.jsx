@@ -5,10 +5,10 @@ import { Avatar,AvatarImage,AvatarFallback } from "./ui/avatar"
 import { BiPhoneCall } from 'react-icons/bi'
 import { Badge } from "@/components/ui/badge"
 
-export default function CartCard() {
+export default function BoughtCard() {
     return (
         <main>
-            <div className = "flex flex-row justify-between border hover:shadow-sm rounded-sm p-5"> 
+            <div className = "flex flex-row justify-between border hover:shadow-sm rounded-sm p-5 bg-gray-300"> 
                 <div className = "flex lg:flex-row flex-col">
                     <Image src="https://i.ibb.co/D46XN9S/Algorithms-clrs.jpg" alt="Product image" width={200} height={200} className="overflow-hidden my-2 mx-auto sm:aspect-h-1 sm:aspect-w-1" />
                     <div className = "flex flex-col justify-between m-8 flex-wrap">
@@ -23,14 +23,8 @@ export default function CartCard() {
                                 <p>Seller name</p>
                             </div>
                         </div>
-                        <div className = "flex sm:flex-row flex-col justify-between items-center ml-5 m-4 gap-2">
+                        <div className = "flex flex-row lg:justify-between justify-center m-4">
                             <Badge className = "rounded-sm p-2 text-2xl justify-center" variant = "outline">₹499</Badge>
-                            <div className = "sm:flex items-center justify-between">
-                                <Button className = "flex flex-row justify-between gap-2">
-                                    <BiPhoneCall /> 
-                                    <p className = "p-10">Contact Now</p>
-                                </Button>
-                            </div>
                         </div>
                     </div>
                 </div> 

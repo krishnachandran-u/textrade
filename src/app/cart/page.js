@@ -1,54 +1,92 @@
 import CartCard from "@/components/CartCard";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
+import BoughtCard from "@/components/BoughtCard"
 
 export default function Cart(){
     return (
-        <main className = "flex flex-col m-6 mb-20 gap-2">
-            <h1 className = "text-4xl mb-2 sm:text-left text-center">Shopping Cart</h1>
-            <div className = "flex flex-col sm:grid sm:grid-cols-5 sm:grid-rows-5 gap-5">
-                <div className = "order-2 row-start-2 row-end-3 sm:col-start-1 sm:col-end-5 sm:row-start-1 sm:row-end-4 sm:order-none flex flex-col border rounded-md">
-                    <div className = "flex flex-col sm:flex-row flex-wrap gap-3 p-3 rounded-lg shadow-md border">
-                        <CartCard />
-                        <CartCard />
-                        <CartCard />
-                        <CartCard />
-                        <CartCard />
-                        <CartCard />
-                    </div> 
-                </div>
-                <div className = "order-3 row-start-3 row-end-4 sm:col-start-5 sm:col-end-6 sm:row-start-1 sm:row-end-6 sm:order-none">
-                    <div className = "flex flex-col gap-20">
-                        <div className = "border rounded-lg shadow-md flex flex-col justify-center">
-                            <div className = "">
-                                <table className = "w-full">
-                                    <tbody>
-                                        <tr className = "">
-                                            <td className = "p-4">Items</td>
-                                            <td className = "text-right p-4">6</td>
-                                        </tr>
-                                        <tr>
-                                            <td className = "p-4">Price</td>
-                                            <td className = "text-right p-4">₹3000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>  
-                            <Button className = "m-5">Checkout</Button>
-                        </div>                        
-                        <div className = "flex flex-col border rounded-lg shadow-md p-3 gap-2">
-                            <div>
-                                <h2 className = "sm:text-left text-center">You might also like</h2>
-                            </div>
-                            <div className = "flex flex-col gap-3">
-                                <ProductCard />
-                                <ProductCard />
-                                <ProductCard />
+       <main className = "m-5 mb-20">
+            <div className = "hidden lg:flex flex-col">
+                <div className = "sm:flex flex-row justify-around gap-2">
+                    <div className = "sm:flex flex-col gap-5">
+                        <div className = "sm:flex flex-col">
+                            <div className = "sm:flex sm:flex-col flex flex-col border rounded-sm shadow-sm p-5 gap-4">
+                                <h2 className = "text-3xl font-bold">Your Cart</h2>
+                                <div className = "sm:flex sm:flex-col gap-3">
+                                    <CartCard /> 
+                                    <CartCard />
+                                </div>
                             </div>
                         </div>
-                    </div>                    
+                        <div>
+                            <div className = "sm:flex sm:flex-col border rounded-sm shadow-sm p-5 gap-4">
+                                <h2 className = "text-3xl font-bold">Previously Bought</h2>
+                                <div className = "sm:flex sm:flex-col gap-3">
+                                    <BoughtCard />
+                                    <BoughtCard /> 
+                                    <BoughtCard />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className = "flex flex-col gap-3">
+                        <div className = "flex flex-col border rounded shadow gap-2 p-2">
+                            <div className = "flex flex-row justify-between gap-6">
+                                <p>Items</p>
+                                <p>6</p>
+                            </div> 
+                            <div className = "flex flex-row justify-between">
+                                <p>Price</p>
+                                <p>₹3000</p>
+                            </div>
+                        </div>
+                        <Button className = "w-full justify-center">
+                            <p className = "p-20">Checkout</p>
+                        </Button>
+                    </div>
                 </div>
             </div>
-        </main>
+
+
+
+
+
+            <div className = "lg:hidden flex flex-col gap-3">
+                <div className = "flex flex-col border rounded shadow gap-2 p-2">
+                        <div className = "flex flex-row justify-between gap-6">
+                            <p>Items</p>
+                            <p>6</p>
+                        </div> 
+                        <div className = "flex flex-row justify-between">
+                            <p>Price</p>
+                            <p>₹3000</p>
+                        </div>
+                </div>
+                <Button className = "w-full justify-center">
+                    <p className = "p-20">Checkout</p>
+                </Button>
+
+                <div className = "flex flex-col">
+                            <div className = "sm:flex sm:flex-col border rounded-sm shadow-sm p-5 gap-4">
+                                <h2 className = "text-3xl font-bold text-center m-2">Your Cart</h2>
+                                <div className = "sm:flex sm:flex-col flex flex-col gap-3">
+                                    <CartCard /> 
+                                    <CartCard />
+                                </div>
+                            </div>
+                        </div>
+                
+                 <div>
+                        <div className = "sm:flex sm:flex-col border rounded-sm shadow-sm p-5 gap-4">
+                            <h2 className = "text-3xl font-bold text-center m-2">Previously Bought</h2>
+                            <div className = "sm:flex sm:flex-col flex flex-col gap-3">
+                                <BoughtCard />
+                                <BoughtCard /> 
+                                <BoughtCard />
+                            </div>
+                        </div>
+                </div> 
+            </div> 
+       </main> 
     )
 }
