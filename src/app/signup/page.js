@@ -33,7 +33,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
-import { DialogBox } from "@/components/verifyEmailDialog"
+import { DialogBox } from "@/components/VerifyEmailDialog"
 import { Toaster } from "@/components/ui/toaster"
 
 const colleges = [

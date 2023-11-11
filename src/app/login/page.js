@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
-import { DialogBox } from "@/components/verifyEmailDialog"
+import { DialogBox } from "@/components/VerifyEmailDialog"
 import { useRouter } from "next/navigation"
 import { Toaster } from "@/components/ui/toaster"
 
