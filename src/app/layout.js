@@ -3,6 +3,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import AuthProvider from '@/providers/AuthProvider'
 import { EdgeStoreProvider } from '@/providers/EdgeStoreProvider'
+import QueryProvider from '@/providers/QueryProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,10 +17,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <AuthProvider>
         <EdgeStoreProvider>
-          <body className={inter.className}>
-            <Navbar/>
-            {children}
-          </body>
+          <QueryProvider>
+              <body className={inter.className}>
+                <Navbar/>
+                {children}
+              </body>
+          </QueryProvider>
         </EdgeStoreProvider>
       </AuthProvider>
     </html>
