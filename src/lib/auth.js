@@ -35,6 +35,7 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session:{
     strategy: "jwt",
+    maxAge: 10 * 24 * 60 * 60,
   },
   pages: {
     signIn: "/login",
@@ -45,14 +46,20 @@ export const authOptions = {
   callbacks: {
     jwt(params){
       if(params.user?.username){
+        params.token.id = params.user.id;
+        params.token.name = params.user.name;
         params.token.username = params.user.username;
         params.token.email = params.user.email;
+        params.token.image = params.user.profile_pic;
       }
       return params.token;
     },
     session({session, token}){
+      session.user.id = token.id;
+      session.user.name = token.name;
       session.user.username = token.username;
       session.user.email = token.email;
+      session.user.image = token.image;
       return session;
     }
   }
