@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/components/ui/use-toast"
 import {
   Form,
   FormControl,
@@ -48,28 +49,33 @@ export default function CreateProductPage() {
   })
 
   async function onSubmit(data) {
-    if(urls.url === undefined){
-      return console.log("Please upload an image of product.")
-      // return toast.error("Please upload an image of product.")
+    if(urls == undefined || urls?.url === undefined){
+      toast({title: "Image not uploaded", description: "Please upload an image first.", status: "error"})
+      return;
     }
     await edgestore.productImages.confirmUpload({
       url: urls.url,
     });
-
     axios.post('/api/createProduct', {
       name: data.title,
-      username: "irfan",
       price: data.price,
       description: data.discription,
       imageUrls: [urls.url],
       categoryname: "book",
-      location: "Product location",
     })
     .then(function (response) {
-      console.log(response);
+      toast({title: "Product created successfully", description: response?.data?.message, status: "success"})
     })
     .catch(function (error) {
-      console.log(error);
+      if(error.response.status === 401){
+        toast({title: "You must be signed in to create a product.", description: "Please sign in first.", status: "error"})
+      }
+      else if(error.response.status === 403){
+        toast({title: "You must complete your profile to create a product.", description: "Please complete your profile first.", status: "error"})
+      }
+      else{
+        toast({title: "Something went wrong", description: "Please try again later.", status: "error"})
+      }
     });
   } 
   
@@ -164,6 +170,7 @@ export default function CreateProductPage() {
         </form>
       </Form>
       </div>
+      <Toaster/>
     </div>
   )
 }
