@@ -10,3 +10,14 @@ export async function searchProducts(searchQuery) {
     return [];
   }
 }
+
+export async function selectUserProducts(username) {
+  try{
+    const { data } = await axios.post(`/api/selectUserProducts`,{username});
+    return data;
+  }
+  catch(error){
+    console.log(error);
+    return [];
+  }
+}
