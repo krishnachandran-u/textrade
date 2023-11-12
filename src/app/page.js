@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProductCard from "@/components/ProductCard";
 import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/lib/fetchProducts";
+import ParentCard from "@/components/ParentCard";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -18,10 +19,10 @@ export default function Home() {
     return <div>Error</div>
   }
   return (
-    <div className="flex flex-wrap gap-2 p-4">
+    <div className="flex flex-wrap gap-2 p-4 mb-20 sm:mb-0">
       {
         products.data.map((product) => {
-          return <ProductCard key={product.id} product={product} />
+          return <ParentCard key={product.id} product={product} />
         })
       }
     </div>

@@ -6,6 +6,7 @@ import Profile from './Profile'
 import { Button } from './ui/button'
 import { usePathname } from 'next/navigation'
 import Link from "next/link"
+import { AiOutlineLogin } from "react-icons/ai"
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -28,7 +29,17 @@ const Navbar = () => {
             </Button>
           </Link>
         <div>
-          <Profile className="sm:flex hidden"/>
+          <div className = "">
+            <Link href = "/login">
+            <Button className = "">
+              <AiOutlineLogin className = "mr-2 h-4 w-4"/> Login
+            </Button>
+            </Link>
+          </div>
+          {/* change <div className = "hidden"> to <div> to show the profile icon instead of the login icon */}
+          <div className = "hidden">
+            <Profile className="sm:flex hidden"/>
+          </div>
         </div>
       </nav>
       <nav className="sm:hidden fixed bottom-0 w-full border border-b-2 flex justify-evenly gap-5 p-2 items-center text-lg">
