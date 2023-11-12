@@ -9,6 +9,7 @@ import {
   FormItem,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation"
 
 export default function Searchbar() {
   const form = useForm({
@@ -16,8 +17,10 @@ export default function Searchbar() {
       search: "",
     },
   })
-
+  const router = useRouter();
   function onSubmit(data) {
+    const searchQuery = encodeURI(data.search);
+    router.push(`?search=${searchQuery}`);
   }
 
   return (
