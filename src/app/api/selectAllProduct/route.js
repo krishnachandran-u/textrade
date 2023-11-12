@@ -7,9 +7,16 @@ export async function GET(req) {
         const url = new URL(req.url);
         const skip = url.searchParams.get("skip");
         const take = url.searchParams.get("take");
+        let search = url.searchParams.get("search");
+        search = search == null ? "" : search;
 
         const products = await prismadb.products.findMany({
-			
+            where: {
+                OR: [
+                    { name: { contains: search, mode: "insensitive" } },
+                    { description: { contains: search, mode: "insensitive" } },
+                ],
+            },
             select: {
                 name: true,
                 price: true,
@@ -27,8 +34,8 @@ export async function GET(req) {
                     },
                 },
             },
-				skip : parseInt(skip),
-				take : parseInt(take),
+            skip : parseInt(skip),
+            take : parseInt(take),
         });
 
         const obj = products;
