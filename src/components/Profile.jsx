@@ -16,8 +16,9 @@ import {
 import {TbLogout2} from 'react-icons/tb'
 import {MdOutlineAccountCircle} from 'react-icons/md'
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 
-export default function Profile() {
+export default function Profile({user}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,22 +26,26 @@ export default function Profile() {
           <Badge variant="outline">
             <div className="flex gap-1 items-center">
               <Avatar className="cursor-pointer hover:drop-shadow-2xl">
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={user.image} alt="@shadcn" />
+                <AvatarFallback>
+                  <MdOutlineAccountCircle className="text-3xl"/>
+                </AvatarFallback>
               </Avatar>
-              <span className="hidden sm:flex">username</span>
+              <span className="hidden sm:flex text-[13px]">@{user.username}</span>
             </div>
           </Badge>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Name <span className="sm:hidden">(@username)</span></DropdownMenuLabel>
+        <DropdownMenuLabel>{user.name} <span className="sm:hidden">(@{user.username})</span></DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <MdOutlineAccountCircle className="text-lg mx-2"/>
-            Profile
-          </DropdownMenuItem>
+            <Link href={`/profile/${user.username}`}>
+              <DropdownMenuItem>
+                  <MdOutlineAccountCircle className="text-lg mx-2"/>
+                  Profile
+              </DropdownMenuItem>
+            </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
