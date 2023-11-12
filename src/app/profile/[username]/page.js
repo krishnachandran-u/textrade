@@ -1,10 +1,30 @@
-import Navbar from "@/components/Navbar";
+'use client'
 import ProfileCard from "@/components/ProfileCard";
+import { useQuery } from "@tanstack/react-query";
+import { selectUserProductsWithProfile } from "@/lib/fetchProducts";
 import ProductCard from "@/components/ProductCard";
-import SoldProductCard from "@/components/SoldProductCard";
-import { Heading } from "lucide-react";
 
-export default function Home() {
+export default function Home({params}) {
+    const username = params.username;
+    const userProducts = useQuery({ 
+        queryKey: ["profile",{userName: username}], 
+        queryFn: () => selectUserProductsWithProfile(username),
+        enabled : !!username
+    })
+    if(userProducts.isLoading || !username){
+        return <div>Loading...</div>
+    }
+    const {products,...user} = userProducts.data;
+    if(userProducts.isError){
+        return <div>Error</div>
+    }
+    const soldProdcuts = products.filter((product) => {
+        return product.sold
+    })
+    const unsoldProdcuts = products.filter((product) => {
+        return !product.sold
+    })
+
     return (
         <main className = "">
             <div className = "flex flex-col  p-4 gap-2">
@@ -18,12 +38,11 @@ export default function Home() {
                             <h3 className = "mb-2">Currently selling</h3>
                             </div>
                             <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
-                                <ProductCard />
-                                <ProductCard />
-                                <ProductCard />
-                                <ProductCard />
-                                <ProductCard />
-                                <ProductCard />
+                            {
+                                unsoldProdcuts.map((product) => {
+                                    return <ProductCard key={product.id} product={product} hideSeller={true} />
+                                })
+                            }
                             </div>
                         </div>
                         <div>
@@ -31,16 +50,16 @@ export default function Home() {
                             <h3 className = "mb-2">Sold</h3>
                             </div>
                             <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
-                                <SoldProductCard />
-                                <SoldProductCard />
-                                <SoldProductCard />
-                                <SoldProductCard />
-                                <SoldProductCard />
+                                {
+                                    soldProdcuts.map((product) => {
+                                        return <ProductCard key={product.id} product={product} disableCard={true} />
+                                    })
+                                }
                             </div>
                         </div> 
                     </div>
                     <div className = "order-first sm:order-last">
-                        <ProfileCard />
+                        <ProfileCard user={user} />
                     </div>
                 </div>
             </div>
