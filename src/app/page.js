@@ -2,13 +2,15 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from 'axios';
 import ProductCard from "@/components/ProductCard";
+import { useSearchParams } from "next/navigation";
+import { searchProducts } from "@/lib/fetchProducts";
 
 export default function Home() {
-  const fetchPosts = async () => {
-    const { data } = await axios.get('/api/selectAllProduct?skip=0&take=20');
-    return data;
-  }
-  const products = useQuery({ queryKey: ["products"], queryFn: fetchPosts })
+  const searchParams = useSearchParams();
+  let search = searchParams.get('search');
+  search = search == null ? "" : search;
+
+  const products = useQuery({ queryKey: ["products",{searchParams: search}], queryFn: () => searchProducts(search) })
   if(products.isLoading){
     return <div>Loading...</div>
   }

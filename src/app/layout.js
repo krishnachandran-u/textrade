@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar'
 import AuthProvider from '@/providers/AuthProvider'
 import { EdgeStoreProvider } from '@/providers/EdgeStoreProvider'
 import QueryProvider from '@/providers/QueryProvider'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
               <body className={inter.className}>
                 <Navbar/>
                 {children}
+                <ReactQueryDevtools initialIsOpen={false} />
               </body>
           </QueryProvider>
         </EdgeStoreProvider>
