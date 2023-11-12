@@ -51,7 +51,9 @@ const Navbar = () => {
               <TbShoppingCartDollar className='mr-2 h-4 w-4'/> Sell
             </Button>
           </Link>
-        <p>textrade.store</p>
+          <Link href = "/">
+            <p>textrade.store</p>
+          </Link>
           <Link href = "/cart">
             <Button>
               <BsCartCheck className='mr-2 h-4 w-4'/> Cart 
