@@ -38,7 +38,10 @@ export async function POST(req){
             name: college,
           }
         },
-        password: await hash(password, 10)
+        password: await hash(password, 10),
+        cart:{
+          create:{}
+        }
       }
     })
     return new NextResponse(JSON.stringify({message:"User created successfully"}),{status: 201})
