@@ -89,8 +89,14 @@ export default function EditProfile(){
         <div className="flex flex-col items-center h-full justify-center gap-6 p-3 pb-16 sm:pb-12">
             <div className="flex flex-col items-center p-4 px-8 space-y-2 rounded-lg border border-black">
                 <h1 className="text-3xl">Edit Profile</h1> 
-                <div className="h-[150px] w-[150px]">
-                    <SingleImageDropzone/>
+                <div className="flex items-center gap-4 mt-2" >
+                    <div className="h-[150px] w-[150px]">
+                        <SingleImageDropzone/>
+                    </div>
+                    <div className="relative bottom-2">
+                        <h1 className="text-xl sm:text-2xl">@username</h1>
+                        <p className="text-sm sm:text-md text-slate-600">useremail@gmail.com</p>
+                    </div>
                 </div>
                 <Form {...form}>
                     <form className="space-y-4 flex flex-col sm:items-center">  
