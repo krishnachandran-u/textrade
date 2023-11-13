@@ -14,7 +14,13 @@ export async function GET(req) {
               name: true,
               price: true,
               location: true,
-              sellerId: true,
+              description: true,
+              seller: {
+                  select: {
+                      username: true,
+                      profile_pic: true,
+                  },
+              },
               images: {
                 select: {
                   url: true,
@@ -31,6 +37,7 @@ export async function GET(req) {
         }
     }
     catch (error) {
+        console.log(error)
         return new NextResponse(JSON.stringify({ error: error }), { status: 500 })
     }
 }

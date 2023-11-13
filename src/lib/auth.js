@@ -12,6 +12,20 @@ export const authOptions = {
         const user = await prismadb.users.findUnique({
           where: {
             email: credentials.email
+          },
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            email: true,
+            password: true,
+            profile_pic: true,
+            verified: true,
+            cart: {
+              select: {
+                id: true,
+              }
+            }
           }
         })
         if (user) {
@@ -51,6 +65,7 @@ export const authOptions = {
         params.token.username = params.user.username;
         params.token.email = params.user.email;
         params.token.image = params.user.profile_pic;
+        params.token.cartId = params.user.cart.id;
       }
       return params.token;
     },
@@ -60,6 +75,7 @@ export const authOptions = {
       session.user.username = token.username;
       session.user.email = token.email;
       session.user.image = token.image;
+      session.user.cartId = token.cartId;
       return session;
     }
   }
