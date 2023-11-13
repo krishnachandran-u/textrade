@@ -57,6 +57,29 @@ const FormSchema = z.object({
     college: z.string({
         required_error: "Please select your college.",
     }),
+    password: z.string().min(8, {
+        message: "Password must be at least 8 characters.",
+    }).optional().or(z.literal('')),
+    confirmPassword: z.string().min(8, {
+        message: "Password must be at least 8 characters.",
+    }).optional().or(z.literal('')),
+    branch: z.string().optional().or(z.literal('')),
+    passoutyear: z.string().optional().or(z.literal('')),
+    note: z.string().min(15,{
+        message: "Note must be at least 15 characters.",
+    }).optional().or(z.literal('')),
+    location: z.string().min(15,{
+        message: "location must be at least 15 characters.",
+    }).optional().or(z.literal('')),
+    phoneNo: z.string().optional().or(z.literal('')),
+    }).superRefine(({ confirmPassword, password }, ctx) => {
+        if (confirmPassword !== password) {
+            ctx.addIssue({
+                code: "custom",
+                message: "The passwords did not match",
+                path: ["confirmPassword"],
+            });
+        }
 });
 
 const colleges = [
