@@ -105,7 +105,7 @@ export default function EditProfile({params}){
     const [urls, setUrls] = useState();
 
     useEffect(() => {
-        if (file) {
+        if (file && typeof file !== "string") {
             const uploadImage = async () =>{
                 const res = await edgestore.productImages.upload({
                     file,
@@ -151,6 +151,7 @@ export default function EditProfile({params}){
     useEffect(() => {
         if (username !== undefined && userInfo.data !== undefined) {
             const data = userInfo.data;
+            setFile(data.profile_pic);
             form.reset({
                 name: data.name,
                 college: data.college.name,
