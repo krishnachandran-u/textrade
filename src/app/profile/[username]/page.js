@@ -51,7 +51,7 @@ export default function Home({params}) {
                         <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
                             {
                                 soldProdcuts.map((product) => {
-                                    return <ProductCard key={product.id} product={product} disableCard={true} />
+                                    return <ProductCard key={product.id} product={product} disableCard={true} hideSeller={true} />
                                 })
                             }
                         </div>
