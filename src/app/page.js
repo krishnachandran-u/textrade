@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/lib/fetchProducts";
 import ParentCard from "@/components/ParentCard";
+import ParentCardSkeleton from "@/components/ParentCardSkeleton";
 
 export default function Home() {
   const searchParams = useSearchParams();

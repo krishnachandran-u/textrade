@@ -3,6 +3,7 @@ import ProfileCard from "@/components/ProfileCard";
 import { useQuery } from "@tanstack/react-query";
 import { selectUserProductsWithProfile } from "@/lib/fetchProducts";
 import ProductCard from "@/components/ProductCard";
+import ParentCard from "@/components/ParentCard";
 
 export default function Home({params}) {
     const username = params.username;
@@ -31,7 +32,7 @@ export default function Home({params}) {
                 <h1 className = "text-5xl text-center sm:pl-2 sm:text-left font-bold"></h1>
             </div>
             <div className = "flex flex-col sm:flex-row flex-grow sm:justify-between mb-20 gap-4 h-full">
-                <div className = "flex flex-col px-2 gap-6 w-full">
+                <div className = "flex flex-col px-2 gap-10 w-full">
                     <div className = "">
                         <div className = "text-center sm:text-left w-full sm:pl-2 text-3xl font-semibold">
                         <h3 className = "mb-2">Currently selling</h3>
@@ -39,7 +40,7 @@ export default function Home({params}) {
                         <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
                         {
                             unsoldProdcuts.map((product) => {
-                                return <ProductCard key={product.id} product={product} hideSeller={true} />
+                                return <ParentCard key={product.id} product={product} hideSeller={true} />
                             })
                         }
                         </div>
@@ -51,13 +52,13 @@ export default function Home({params}) {
                         <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
                             {
                                 soldProdcuts.map((product) => {
-                                    return <ProductCard key={product.id} product={product} disableCard={true} hideSeller={true} />
+                                    return <ParentCard key={product.id} product={product} disableCard={true} hideSeller={true} />
                                 })
                             }
                         </div>
                     </div> 
                 </div>
-                <div className = "order-first sm:order-last">
+                <div className = "order-first sm:order-last mb-3">
                     <ProfileCard user={user} />
                 </div>
             </div>
