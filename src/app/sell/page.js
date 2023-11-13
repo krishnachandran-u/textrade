@@ -2,7 +2,7 @@
 import AddProductCard from "@/components/AddProductCard"
 import ProductCard from "@/components/ProductCard"
 import { useQuery } from "@tanstack/react-query"
-import { selectUserProducts } from "@/lib/fetchProducts"
+import { selectUserProducts } from "@/lib/fetchQueries"
 import { useSession } from "next-auth/react"
 
 function SellPage() {

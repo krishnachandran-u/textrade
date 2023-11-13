@@ -1,7 +1,7 @@
 'use client'
 import ProfileCard from "@/components/ProfileCard";
 import { useQuery } from "@tanstack/react-query";
-import { selectUserProductsWithProfile } from "@/lib/fetchProducts";
+import { selectUserProductsWithProfile } from "@/lib/fetchQueries";
 import ProductCard from "@/components/ProductCard";
 
 export default function Home({params}) {
