@@ -45,6 +45,8 @@ import { DialogBox } from "@/components/VerifyEmailDialog"
 import { Toaster } from "@/components/ui/toaster"
 import { Textarea } from "@/components/ui/textarea"
 import { SingleImageDropzone } from "@/components/ProfileDropZone"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 const FormSchema = z.object({
     name: z.string().min(2, {
@@ -75,44 +77,51 @@ const branches = [
     { label: "Civil", value: "CE" },
 ]
 
-export default function EditProfile(){
-
+export default function EditProfile({params}){
+    const router = useRouter()
+    const session = useSession();
     const { edgestore } = useEdgeStore();
     const [file, setFile] = useState();
     const [progress, setProgress] = useState(0);
     const [urls, setUrls] = useState();
-
+    
     const form = useForm({
-    resolver: zodResolver(FormSchema),
-    defaultValues:{
-        name:'',
-        email:'',
-        college:'',
-        note: '',
-    }
-    })
-
-    useEffect(() => {
-    if (file) {
-        const uploadImage = async () =>{
-        const res = await edgestore.productImages.upload({
-            file,
-            options: {
-            temporary: true,
-            },
-            onProgressChange: (progress) => {
-            setProgress(progress);
-            },
-        });
-        setUrls({
-            url: res.url,
-            thumbnailUrl: res.thumbnailUrl,
-        });
+        resolver: zodResolver(FormSchema),
+        defaultValues:{
+            name:'',
+            email:'',
+            college:'',
+            note: '',
         }
-        uploadImage();
-    }
+    })
+    useEffect(() => {
+        if (file) {
+            const uploadImage = async () =>{
+                const res = await edgestore.productImages.upload({
+                    file,
+                    options: {
+                        temporary: true,
+                    },
+                    onProgressChange: (progress) => {
+                        setProgress(progress);
+                    },
+                });
+                setUrls({
+                    url: res.url,
+                    thumbnailUrl: res.thumbnailUrl,
+                });
+            }
+            uploadImage();
+        }
     },[file])
-
+    
+    if(session.status === 'loading'){
+        return <div>Loading...</div>
+    }
+    if(session.data.user.username !== params.username){
+        router.push(`/profile/${session.data.user.username}/edit`)
+        return null;
+    }
     return ( 
         <div className="flex flex-col items-center h-full justify-center gap-6 p-3 pb-16 sm:pb-12">
             <div className="flex flex-col items-center p-4 px-8 space-y-2 rounded-lg border border-black">

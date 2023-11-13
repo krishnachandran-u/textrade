@@ -23,7 +23,7 @@ export default function ProfileCard({user}) {
                     <p className = "text-gray-500 italic">@{user.username}</p>
                 </div>
                 <div className = "w-full gap-2 flex flex-col">
-                        <Button className = "bg-gray-500" onClick={() => router.push(`/profile/${user.username}/edit-profile`)}>
+                        <Button className = "bg-gray-500" onClick={() => router.push(`/profile/${user.username}/edit`)}>
                                 <p className = "">Edit Profile</p>
                         </Button>
                     <Button className = "bg-black">
