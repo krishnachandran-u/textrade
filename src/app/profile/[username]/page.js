@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 export default function Home({params}) {
     const username = params.username;
     const userProducts = useQuery({ 
-        queryKey: ["profile",{userName: username}], 
+        queryKey: ["profile",username], 
         queryFn: () => selectUserProductsWithProfile(username),
         enabled : !!username
     })
