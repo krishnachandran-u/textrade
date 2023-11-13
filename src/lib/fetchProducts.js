@@ -32,3 +32,14 @@ export async function selectUserProductsWithProfile(username) {
     return [];
   }
 }
+
+export async function selectProduct(productId) {
+  try{
+    const { data } = await axios.get(`http://localhost:3000/api/selectProduct?productId=${productId}`)
+    return data;
+  }
+  catch(error){
+    console.log(error);
+    return [];
+  }
+}
