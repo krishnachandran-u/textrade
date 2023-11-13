@@ -47,7 +47,6 @@ export async function selectProduct(productId) {
 export async function selectUserInfo(username) {
   try{
     const { data } = await axios.post(`/api/selectUserInfo`,{username});
-    console.log(data);
     return data;
   }
   catch(error){

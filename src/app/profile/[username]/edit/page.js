@@ -118,7 +118,7 @@ export default function EditProfile({params}){
     });   
     const username = session?.data?.user?.username
     if (session.data != undefined && username !== params.username) {
-        redirect(`/profile/${session?.data?.user?.username}/edit`)
+        redirect(`/profile/${username}/edit`)
     }
     const userInfo = useQuery({ 
         queryKey: ["userInfo",username], 

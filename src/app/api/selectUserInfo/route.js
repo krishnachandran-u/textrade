@@ -38,11 +38,9 @@ export async function POST(req) {
             },
           });          
         userInfo.phoneNo = userInfo.phoneNo.toString()
-        console.log(userInfo)
         return new NextResponse(JSON.stringify(userInfo), { status: 200 })
     }
     catch (error) {
-        console.log(error)
         return new NextResponse(JSON.stringify({ error: error }), { status: 500 })
     }
 }
