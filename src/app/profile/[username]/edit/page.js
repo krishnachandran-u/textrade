@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 import { sendVerificationEmail } from "@/lib/sendVerificationEmail"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useEdgeStore } from "@/providers/EdgeStoreProvider"
+import { useQuery } from "@tanstack/react-query"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -46,19 +47,15 @@ import { Toaster } from "@/components/ui/toaster"
 import { Textarea } from "@/components/ui/textarea"
 import { SingleImageDropzone } from "@/components/ProfileDropZone"
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
+import { selectUserInfo } from "@/lib/fetchQueries"
 
 const FormSchema = z.object({
     name: z.string().min(2, {
         message: "Username must be at least 2 characters.",
     }),
-    email: z.string().email({
-        message: "Please enter a valid email.",
-    }),
     college: z.string({
         required_error: "Please select your college.",
-    }),
-    note: z.string({
     }),
 });
 
@@ -78,22 +75,12 @@ const branches = [
 ]
 
 export default function EditProfile({params}){
-    const router = useRouter()
     const session = useSession();
     const { edgestore } = useEdgeStore();
     const [file, setFile] = useState();
     const [progress, setProgress] = useState(0);
     const [urls, setUrls] = useState();
-    
-    const form = useForm({
-        resolver: zodResolver(FormSchema),
-        defaultValues:{
-            name:'',
-            email:'',
-            college:'',
-            note: '',
-        }
-    })
+
     useEffect(() => {
         if (file) {
             const uploadImage = async () =>{
@@ -114,14 +101,53 @@ export default function EditProfile({params}){
             uploadImage();
         }
     },[file])
+
+    const form = useForm({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            name: "",
+            college: "",
+            branch: "",
+            passoutyear: "",
+            note: "",
+            location: "",
+            phoneNo: "",
+            password: "",
+            confirmPassword: "",
+        },
+    });   
+    const username = session?.data?.user?.username
+    if (session.data != undefined && username !== params.username) {
+        redirect(`/profile/${session?.data?.user?.username}/edit`)
+    }
+    const userInfo = useQuery({ 
+        queryKey: ["userInfo",username], 
+        queryFn: () => selectUserInfo(username), 
+        enabled : !!username
+    })
+    useEffect(() => {
+        if (username !== undefined && userInfo.data !== undefined) {
+            const data = userInfo.data;
+            form.reset({
+                name: data.name,
+                college: data.college.name,
+                branch: data.branch.name,
+                passoutyear: data.passoutyear,
+                note: data.note,
+                location: data.location,
+                phoneNo: data.phoneNo,
+            });
+        }
+    }, [username, userInfo.data]);
+
+    async function onSubmit(data) {
+        if(urls != undefined && urls?.url !== undefined){
+            await edgestore.productImages.confirmUpload({
+                url: urls.url,
+            });
+        }
+    } 
     
-    if(session.status === 'loading'){
-        return <div>Loading...</div>
-    }
-    if(session.data.user.username !== params.username){
-        router.push(`/profile/${session.data.user.username}/edit`)
-        return null;
-    }
     return ( 
         <div className="flex flex-col items-center h-full justify-center gap-6 p-3 pb-16 sm:pb-12">
             <div className="flex flex-col items-center p-4 px-8 space-y-2 rounded-lg border border-black">
@@ -152,7 +178,7 @@ export default function EditProfile({params}){
                     </div>
                 </div>
                 <Form {...form}>
-                    <form className="space-y-4 flex flex-col sm:items-center">  
+                    <form className="space-y-4 flex flex-col sm:items-center" onSubmit={form.handleSubmit(onSubmit)}>  
 
                         {/* Email and Phonenumber */}
                         <div className="flex flex-col gap-4">
