@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form"
 import Link from "next/link"
 import * as z from "zod"
 import axios from "axios"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { sendVerificationEmail } from "@/lib/sendVerificationEmail"
 import { Check, ChevronsUpDown } from "lucide-react"
+import { useEdgeStore } from "@/providers/EdgeStoreProvider"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -75,6 +76,12 @@ const branches = [
 ]
 
 export default function EditProfile(){
+
+    const { edgestore } = useEdgeStore();
+    const [file, setFile] = useState();
+    const [progress, setProgress] = useState(0);
+    const [urls, setUrls] = useState();
+
     const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues:{
@@ -83,7 +90,28 @@ export default function EditProfile(){
         college:'',
         note: '',
     }
-})
+    })
+
+    useEffect(() => {
+    if (file) {
+        const uploadImage = async () =>{
+        const res = await edgestore.productImages.upload({
+            file,
+            options: {
+            temporary: true,
+            },
+            onProgressChange: (progress) => {
+            setProgress(progress);
+            },
+        });
+        setUrls({
+            url: res.url,
+            thumbnailUrl: res.thumbnailUrl,
+        });
+        }
+        uploadImage();
+    }
+    },[file])
 
     return ( 
         <div className="flex flex-col items-center h-full justify-center gap-6 p-3 pb-16 sm:pb-12">
@@ -91,11 +119,27 @@ export default function EditProfile(){
                 <h1 className="text-3xl">Edit Profile</h1> 
                 <div className="flex items-center gap-4 mt-2" >
                     <div className="h-[150px] w-[150px]">
-                        <SingleImageDropzone/>
+                        <SingleImageDropzone
+                            value={file}
+                            dropzoneOptions={{
+                                maxSize:1024*1024*1,
+                            }}
+                            onChange={(file) => {
+                                setFile(file);
+                            }}
+                        />
                     </div>
                     <div className="relative bottom-2">
                         <h1 className="text-xl sm:text-2xl">@username</h1>
                         <p className="text-sm sm:text-md text-slate-600">useremail@gmail.com</p>
+                        <div className="h-[7px] w-full border rounded overflow-hidden mt-2">
+                            <div
+                            className="h-full bg-slate-400 transition-all duration-150"
+                            style={{
+                                width: `${progress}%`,
+                            }}
+                            />
+                        </div>
                     </div>
                 </div>
                 <Form {...form}>
