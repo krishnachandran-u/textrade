@@ -14,7 +14,7 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product}) {
   const {name,price,images,description,seller} = product;
   const router = useRouter();
   return(
-    <Card className="min-w-[280px] hover:shadow-2xl relative">
+    <Card className="min-w-[280px] hover:shadow-2xl relative" onClick={() => router.push(`/product/${product.id}`) }>
       <div className={cn(disableCard?"":"hidden","bg-slate-400/40 h-full w-full absolute rounded-sm z-50")}/>
       <div className={cn(hideSeller ? "h-[403px]" : "h-[410px]")}>
         <CardContent className="relative h-full w-full flex flex-col items-center">
@@ -22,7 +22,10 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product}) {
           <div className="mx-auto border-t-2">
             <h1 className="font-semibold pt-2">{name}</h1>
             <span className="text-slate-500 text-sm text-wrap">{description.substring(0,35)}</span>
-            <div className={cn( hideSeller ? "hidden" : "flex","gap-1 items-center mt-1 cursor-pointer")} onClick={() => router.push(`/profile/${seller?.username}`)}>
+            <div className={cn( hideSeller ? "hidden" : "flex","gap-1 items-center mt-1 cursor-pointer")} onClick={(event) => {
+              event.stopPropagation();
+              router.push(`/profile/${seller?.username}`)
+              }}>
               <Avatar className="hover:drop-shadow-2xl w-4 h-4">
                 <AvatarImage src={seller?.profile_pic} alt="@textrade.store" />
                 <AvatarFallback><MdOutlineAccountCircle/></AvatarFallback>
