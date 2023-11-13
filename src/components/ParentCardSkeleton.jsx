@@ -19,7 +19,7 @@ export default function ParentCardSkeleton({hideCart,disableCard,product,hideSel
       <div className="h-full w-full absolute rounded-sm z-50" />
       <div className="h-[410px]">
         <CardContent className="relative h-full w-full flex flex-col items-center">
-          <Skeleton className="h-200 w-200 grayscale overflow-hidden my-auto"/>
+          <Skeleton className="h-[200px] w-[200px] bg-slate-100 overflow-hidden my-auto"/>
           <div className="mx-auto border-t-2">
             <h1 className="font-semibold pt-2">
               <Skeleton className="h-6 w-[200px] mb-1" />
@@ -52,7 +52,7 @@ export default function ParentCardSkeleton({hideCart,disableCard,product,hideSel
       <div className={disableCard ? "hidden" : "h-full w-full absolute rounded-sm z-50"} />
       <div className={hideCart ? "h-[403px]" : "m-2"}>
         <div className="relative w-full h-[290px] flex sm:flex-col flex-row items-center gap-3">
-          <Skeleton className="h-200 w-200 grayscale overflow-hidden my-auto border pt-5 pb-5 pr-1 pl-1" />
+          <Skeleton className="h-[200px] w-[200px] ml-2 bg-slate-100 overflow-hidden my-auto border pt-5 pb-5 pr-1 pl-1" />
           <div className="mx-auto mr-2">
             <h1 className="font-semibold pt-2">
               <Skeleton className="h-6 w-[150px] mb-1" />
