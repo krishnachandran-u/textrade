@@ -12,8 +12,8 @@ import { useSession } from 'next-auth/react'
 const Navbar = () => {
   const pathname = usePathname()
   const showHeader = (pathname === '/login' || pathname === '/signup') ? false : true;
-  if(!showHeader) return null;
   const session = useSession();
+  if(!showHeader) return null;
 
   return (
     <>
