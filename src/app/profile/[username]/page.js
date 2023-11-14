@@ -19,10 +19,10 @@ export default function Home({params}) {
     if(userProducts.isError){
         return <div>Error</div>
     }
-    const soldProdcuts = products.filter((product) => {
+    const soldProdcuts = products?.filter((product) => {
         return product.sold
     })
-    const unsoldProdcuts = products.filter((product) => {
+    const unsoldProdcuts = products?.filter((product) => {
         return !product.sold
     })
 

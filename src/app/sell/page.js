@@ -21,10 +21,10 @@ function SellPage() {
   if(userProducts.isError){
     return <div>Error</div>
   }
-  const soldProdcuts = userProducts.data.filter((product) => {
+  const soldProdcuts = userProducts?.data?.filter((product) => {
     return product.sold
   })
-  const unsoldProdcuts = userProducts.data.filter((product) => {
+  const unsoldProdcuts = userProducts?.data?.filter((product) => {
     return !product.sold
   })
 
