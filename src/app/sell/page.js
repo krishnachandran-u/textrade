@@ -4,6 +4,8 @@ import ProductCard from "@/components/ProductCard"
 import { useQuery } from "@tanstack/react-query"
 import { selectUserProducts } from "@/lib/fetchQueries"
 import { useSession } from "next-auth/react"
+import ParentCard from "@/components/ParentCard"
+import ParentCardSkeleton from "@/components/ParentCardSkeleton"
 
 function SellPage() {
   const session = useSession()
@@ -27,8 +29,8 @@ function SellPage() {
   })
 
   return (
-    <div className="p-4">
-      <div className = "flex flex-col">
+    <div className="sm:p-4 pt-4 sm:mb-0 mb-20">
+      <div className = "flex flex-col gap-5">
           <div className = "text-center sm:text-left w-full sm:pl-2 text-3xl font-semibold">
               <h2 className = "">Your Products</h2>
           </div>
@@ -36,7 +38,7 @@ function SellPage() {
             <AddProductCard />
             {
               unsoldProdcuts.map((product) => {
-                return <ProductCard key={product.id} product={product} hideCart={true} hideSeller={true} />
+                return <ParentCard key={product.id} product={product} hideCart={true} hideSeller={true} />
               })
             }
           </div>
@@ -46,7 +48,7 @@ function SellPage() {
           <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start p-4 gap-2">
             {
               soldProdcuts.map((product) => {
-                return <ProductCard key={product.id} product={product} hideCart={true} disableCard={true} hideSeller={true} />
+                return <ParentCard key={product.id} product={product} hideCart={true} disableCard={true} hideSeller={true} />
               })
             }
           </div>
