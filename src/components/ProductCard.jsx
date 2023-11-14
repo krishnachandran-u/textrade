@@ -18,7 +18,7 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product}) {
       <div className={cn(disableCard?"":"hidden","bg-slate-400/40 h-full w-full absolute rounded-sm z-50")}/>
       <div className={cn(hideSeller ? "h-[403px]" : "h-[410px]")}>
         <CardContent className="relative h-full w-full flex flex-col items-center">
-          <Image src={images[0].url} alt="Product image" width={200} height={200} className={cn(disableCard?"grayscale":"","overflow-hidden my-auto")}/>
+          <Image src={images[0]?.url} alt="Product image" width={200} height={200} className={cn(disableCard?"grayscale":"","overflow-hidden my-auto")}/>
           <div className="mx-auto border-t-2">
             <h1 className="font-semibold pt-2">{name}</h1>
             <span className="text-slate-500 text-sm text-wrap">{description.substring(0,35)}</span>
