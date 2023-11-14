@@ -4,7 +4,7 @@ import { Avatar,AvatarImage,AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {BsCartPlus,BsTelephoneOutbound} from 'react-icons/bs'
 import { useQuery } from "@tanstack/react-query"
-import { selectProduct } from "@/lib/fetchProducts"
+import { selectProduct } from "@/lib/fetchQueries"
 import ContactNow from "@/components/ContactNow"
 
 export default function ProductPage({params}) {

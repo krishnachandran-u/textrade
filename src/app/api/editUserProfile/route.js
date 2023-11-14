@@ -1,34 +1,36 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
+import useServerSession from "@/lib/auth";
+import { hash } from "bcryptjs";
 
 export async function POST(req) {
+    const session = await useServerSession(req)
+    if(!session){
+        console.log("You must be signed in to edit profile.")
+        return new NextResponse(JSON.stringify({ message: "You must be signed in to edit profile." }), { status: 401 })
+    }
     try {
 
-        const { username, name, note, location, collegeId, branchName, profile_pic } = await req.json();
+        const { name,username, note, location, college, branch, profile_pic, phoneNo,password } = await req.json();
 
-        const existingBranch = await prismadb.branches.findUnique({
-            where: { name: branchName }, // Use appropriate condition based on your data model
-        });
-
-        if (!existingBranch) {
-            // Handle the case where the branch doesn't exist
-            return new NextResponse(
-                JSON.stringify({ error: `Branch with name ${branchName} not found.` }),
-                { status: 404 }
-            );
-        }
-
-        const editedProfile = await prismadb.users.update({
+        let editedProfile = await prismadb.users.update({
             where: { username: username },
             data: {
                 name: name,
                 note: note,
                 location: location,
-                college: { connect: { id: collegeId } },
-                branch: { connect: { name: branchName } }, // Change branchId to branchName
+                college: { connect: { name: college} },
+                branch: { connect: { name: branch} }, 
                 profile_pic: profile_pic,
             },
         });
+        if (password && password.trim() !== '') {
+            updateData.password = await hash(password, 10),
+            editedProfile = await prismadb.users.update({
+            where: { username: username },
+            data: updateData,
+            });
+        }
 
         if (editedProfile) {
             return new NextResponse(JSON.stringify({ message: "User profile edited" }), { status: 200 })

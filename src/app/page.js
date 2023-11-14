@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import axios from 'axios';
 import ProductCard from "@/components/ProductCard";
 import { useSearchParams } from "next/navigation";
-import { searchProducts } from "@/lib/fetchProducts";
+import { searchProducts } from "@/lib/fetchQueries";
 import ParentCard from "@/components/ParentCard";
 import ParentCardSkeleton from "@/components/ParentCardSkeleton";
 
