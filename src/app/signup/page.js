@@ -56,6 +56,8 @@ const FormSchema = z.object({
     message: "Username must be at most 12 characters.",
   }).regex(/^\S*$/,{
     message: "Username must not contain spaces.",
+  }).refine(value => value === value.toLowerCase(), {
+  message: "Username must be all lowercase.",
   }),
   college: z.string({
     required_error: "Please select your college.",
