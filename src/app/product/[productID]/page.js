@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import {BsCartPlus,BsTelephoneOutbound} from 'react-icons/bs'
 import { useQuery } from "@tanstack/react-query"
 import { selectProduct } from "@/lib/fetchQueries"
+import ContactNow from "@/components/ContactNow"
 
 export default function ProductPage({params}) {
 
@@ -39,7 +40,7 @@ export default function ProductPage({params}) {
         <div className='p-2 border-2 rounded-md w-fit text-lg sm:mt-4 mt-2 font-semibold'>{price}₹</div>
         <div className="flex gap-4 sm:mt-5 mt-3">
           <Button className="flex text-md">
-            <BsTelephoneOutbound className='mr-2 h-4 w-4'/> Contact Now 
+            <ContactNow className='mr-2 h-4 w-4'/>
           </Button>
           <Button className="flex text-md">
             <BsCartPlus className='mr-2 h-4 w-4'/> Add to Cart 

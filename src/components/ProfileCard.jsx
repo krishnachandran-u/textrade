@@ -6,6 +6,7 @@ import {
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
+import ContactNow from "./ContactNow"
 
 export default function ProfileCard({user}) {
     const router = useRouter()
@@ -28,6 +29,9 @@ export default function ProfileCard({user}) {
                         </Button>
                     <Button className = "bg-black">
                         <p className = "">{user.college.name}</p>
+                    </Button>
+                    <Button>
+                        <ContactNow />
                     </Button>
                 </div>
                 <div className = "flex flex-col w-full gap-2">
