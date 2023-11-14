@@ -209,7 +209,7 @@ export default function EditProfile({params}){
                     </div>
                     <div className="relative bottom-2">
                         <h1 className="text-xl sm:text-2xl">@{username}</h1>
-                        <p className="text-sm sm:text-md text-slate-600">{userInfo?.data?.email}</p>
+                        <p className="text-sm sm:text-md text-slate-600">{session?.data?.user?.email}</p>
                         <div className="h-[7px] w-full border rounded overflow-hidden mt-2">
                             <div
                             className="h-full bg-slate-400 transition-all duration-150"
