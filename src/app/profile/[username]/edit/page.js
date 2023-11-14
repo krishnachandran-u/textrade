@@ -170,6 +170,25 @@ export default function EditProfile({params}){
                 url: urls.url,
             });
         }
+        axios.post('/api/editUserProfile', {
+            name: data.name,
+            username: username,
+            note: data.note,
+            location: data.location,
+            college: data.college,
+            branch: data.branch,
+            passoutyear: data.passoutyear,
+            phoneNo: data.phoneNo,
+            profile_pic: urls?.url,
+            password: data.password,
+        }).then(async (res) => {
+            if(res.status == 200){
+                toast({title: "Account updated", description: "Account has been edited successfully"})
+            }
+            }).catch((err) => {
+                console.log(err)
+                toast({title: "Error", description: "Something went wrong"})
+        })
     } 
     
     return ( 
@@ -211,7 +230,7 @@ export default function EditProfile({params}){
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="min-w-[330px]">
+                                        <FormItem className="min-w-[350px]">
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Enter your name" {...field} />
@@ -224,7 +243,7 @@ export default function EditProfile({params}){
                                     control={form.control}
                                     name="phoneNo"
                                     render={({ field }) => (
-                                        <FormItem className="min-w-[330px]">
+                                        <FormItem className="min-w-[350px]">
                                             <FormLabel>Phone</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Enter your phone number" {...field} />
@@ -300,7 +319,7 @@ export default function EditProfile({params}){
                                         control={form.control}
                                         name="branch"
                                         render={({ field }) => (
-                                        <FormItem className="flex flex-col w-1/2">
+                                        <FormItem className="flex flex-col w-[60%]">
                                             <FormLabel>Branch</FormLabel>
                                             <Popover>
                                                 <PopoverTrigger asChild>
@@ -315,7 +334,7 @@ export default function EditProfile({params}){
                                                         >
                                                         {field.value
                                                         ? branches.find(
-                                                            (branch) => branch.value === branch.value
+                                                            (branch) => branch.value === field.value
                                                             )?.label
                                                             : "Your branch"}
                                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -325,14 +344,14 @@ export default function EditProfile({params}){
                                                     <PopoverContent className="p-0 w-[320px]">
                                                         <Command>
                                                         <CommandInput placeholder="Search Branch..." />
-                                                        <CommandEmpty>No college found.</CommandEmpty>
+                                                        <CommandEmpty>Branch not found.</CommandEmpty>
                                                             <CommandGroup>
                                                             {branches.map((branch) => (
                                                                 <CommandItem
                                                                     value={branch.label}
                                                                     key={branch.value}
                                                                         onSelect={() => {
-                                                                        form.setValue("college", branch.value)
+                                                                        form.setValue("branch", branch.value)
                                                                     }}
                                             >
                                                                     <Check
@@ -358,7 +377,7 @@ export default function EditProfile({params}){
                                         control={form.control}
                                         name="passoutyear"
                                         render={({ field }) => (
-                                        <FormItem className="flex flex-col w-1/2">
+                                        <FormItem className="flex flex-col w-[40%]">
                                             <FormLabel className="">Passout Year</FormLabel>
                                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                 <FormControl>
@@ -446,8 +465,8 @@ export default function EditProfile({params}){
                     </form> 
                         
                 </Form>
-
             </div>
+            <Toaster/>
         </div>
     )
 }
