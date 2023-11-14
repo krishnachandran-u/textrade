@@ -151,15 +151,15 @@ export default function EditProfile({params}){
     useEffect(() => {
         if (username !== undefined && userInfo.data !== undefined) {
             const data = userInfo.data;
-            setFile(data.profile_pic);
+            setFile(data?.profile_pic);
             form.reset({
-                name: data.name,
-                college: data.college.name,
-                branch: data.branch.name,
-                passoutyear: data.passoutyear,
-                note: data.note,
-                location: data.location,
-                phoneNo: data.phoneNo,
+                name: data?.name,
+                college: data?.college?.name,
+                branch: data?.branch?.name,
+                passoutyear: data?.passoutyear,
+                note: data?.note,
+                location: data?.location,
+                phoneNo: data?.phoneNo,
             });
         }
     }, [username, userInfo.data]);
@@ -208,8 +208,8 @@ export default function EditProfile({params}){
                         />
                     </div>
                     <div className="relative bottom-2">
-                        <h1 className="text-xl sm:text-2xl">@username</h1>
-                        <p className="text-sm sm:text-md text-slate-600">useremail@gmail.com</p>
+                        <h1 className="text-xl sm:text-2xl">@{username}</h1>
+                        <p className="text-sm sm:text-md text-slate-600">{userInfo?.data?.email}</p>
                         <div className="h-[7px] w-full border rounded overflow-hidden mt-2">
                             <div
                             className="h-full bg-slate-400 transition-all duration-150"
