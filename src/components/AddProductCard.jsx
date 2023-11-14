@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function AddProductCard() {
   return(
     <Card className="min-w-[280px] hover:shadow-2xl">
-      <div className="h-[410px]">
+      <div className="h-[404px]">
         <CardContent className='h-full flex flex-col items-center justify-center'>
           <Link href = "/sell/create">
           <Button className="flex gap-1 text-md relative top-5">

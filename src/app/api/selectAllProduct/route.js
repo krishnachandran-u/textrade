@@ -18,6 +18,7 @@ export async function GET(req) {
                 ],
             },
             select: {
+                id: true,
                 name: true,
                 price: true,
                 description: true,
