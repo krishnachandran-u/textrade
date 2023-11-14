@@ -23,7 +23,7 @@ export default function Home() {
     <div className="flex flex-wrap gap-2 p-4 mb-20 sm:mb-0">
       {
         products?.data?.map((product) => {
-          return <ParentCard key={product.id} product={product} />
+          return <ParentCard key={product.id} product={product} disableCard={product.sold} />
         })
       }
     </div>
