@@ -39,7 +39,7 @@ export default function Home({params}) {
                         </div>
                         <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
                         {
-                            unsoldProdcuts.map((product) => {
+                            unsoldProdcuts?.map((product) => {
                                 return <ParentCard key={product.id} product={product} hideSeller={true} />
                             })
                         }
@@ -51,7 +51,7 @@ export default function Home({params}) {
                         </div>
                         <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start gap-2">
                             {
-                                soldProdcuts.map((product) => {
+                                soldProdcuts?.map((product) => {
                                     return <ParentCard key={product.id} product={product} disableCard={true} hideSeller={true} />
                                 })
                             }

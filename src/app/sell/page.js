@@ -37,7 +37,7 @@ function SellPage() {
           <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start p-4 gap-2">
             <AddProductCard />
             {
-              unsoldProdcuts.map((product) => {
+              unsoldProdcuts?.map((product) => {
                 return <ParentCard key={product.id} product={product} hideCart={true} hideSeller={true} />
               })
             }
@@ -47,7 +47,7 @@ function SellPage() {
           </div>
           <div className = "flex sm:flex-row flex-col sm:flex-wrap sm:items-start p-4 gap-2">
             {
-              soldProdcuts.map((product) => {
+              soldProdcuts?.map((product) => {
                 return <ParentCard key={product.id} product={product} hideCart={true} disableCard={true} hideSeller={true} />
               })
             }
