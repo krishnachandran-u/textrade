@@ -20,7 +20,7 @@ export default function ProfileCard({user}) {
                     </Avatar> 
                 </div>
                 <div className = "flex flex-col items-start w-full">
-                    <h1 className = "text-3xl font-bold">{user.name}</h1>
+                    <h1 className = "text-3xl font-semibold">{user.name}</h1>
                     <p className = "text-gray-500 italic">@{user.username}</p>
                 </div>
                 <div className = "w-full gap-2 flex flex-col">
@@ -35,7 +35,7 @@ export default function ProfileCard({user}) {
                     </Button>
                 </div>
                 <div className = "flex flex-col w-full gap-2">
-                    <div className = "font-bold">Note</div>
+                    <div className = "font-semibold">Note</div>
                     <div className = "w-full h-[100px] border rounded-lg shadow-md p-1 ">
                         <p>{user.note}</p>
                     </div>
