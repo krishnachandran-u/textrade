@@ -35,7 +35,7 @@ export async function selectUserProductsWithProfile(username) {
 
 export async function selectProduct(productId) {
   try{
-    const { data } = await axios.get(`http://localhost:3000/api/selectProduct?productId=${productId}`)
+    const { data } = await axios.get(`/api/selectProduct?productId=${productId}`)
     return data;
   }
   catch(error){
