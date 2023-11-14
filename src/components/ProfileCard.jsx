@@ -28,7 +28,7 @@ export default function ProfileCard({user}) {
                                 <p className = "">Edit Profile</p>
                         </Button>
                     <Button className = "bg-black">
-                        <p className = "">{user?.college.name}</p>
+                        <p className = "">{user?.college?.name}</p>
                     </Button>
                     <Button>
                         <ContactNow />
