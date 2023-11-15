@@ -18,6 +18,7 @@ export async function POST(req) {
             data: {
                 name: name,
                 note: note,
+                phoneNo: phoneNo,
                 location: location,
                 college: { connect: { name: college} },
                 branch: { connect: { name: branch} }, 
