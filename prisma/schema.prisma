@@ -16,7 +16,7 @@ model Users {
   name             String?
   note             String?
   email            String     @unique
-  phoneNo          BigInt?
+  phoneNo          String?
   passoutyear      String?
   location         String?
   activationKey    String?

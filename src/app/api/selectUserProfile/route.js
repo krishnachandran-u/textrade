@@ -37,7 +37,6 @@ export async function GET(req){
                 }
             },
         });
-        user.phoneNo = user.phoneNo?.toString()
         if (user) {
             return new NextResponse(JSON.stringify(user),{status:200})
         }

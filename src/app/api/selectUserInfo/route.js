@@ -37,7 +37,6 @@ export async function POST(req) {
               },
             },
           });          
-        userInfo.phoneNo = userInfo.phoneNo?.toString()
         return new NextResponse(JSON.stringify(userInfo), { status: 200 })
     }
     catch (error) {
