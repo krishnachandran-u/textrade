@@ -2,14 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import Link from "next/link"
 import * as z from "zod"
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { sendVerificationEmail } from "@/lib/sendVerificationEmail"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useEdgeStore } from "@/providers/EdgeStoreProvider"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -99,6 +97,7 @@ const branches = [
 
 export default function EditProfile({params}){
     const session = useSession();
+    const queryClient = useQueryClient();
     const { edgestore } = useEdgeStore();
     const [file, setFile] = useState();
     const [progress, setProgress] = useState(0);
@@ -164,13 +163,8 @@ export default function EditProfile({params}){
         }
     }, [username, userInfo.data]);
 
-    async function onSubmit(data) {
-        if(urls != undefined && urls?.url !== undefined){
-            await edgestore.productImages.confirmUpload({
-                url: urls.url,
-            });
-        }
-        axios.post('/api/editUserProfile', {
+    const updateUserMutation = useMutation({
+        mutationFn: (data) => axios.post('/api/editUserProfile', {
             name: data.name,
             username: username,
             note: data.note,
@@ -181,14 +175,40 @@ export default function EditProfile({params}){
             phoneNo: data.phoneNo,
             profile_pic: urls?.url,
             password: data.password,
-        }).then(async (res) => {
-            if(res.status == 200){
-                toast({title: "Account updated", description: "Account has been edited successfully"})
+        }),
+        onSuccess: ({data}) => {
+            queryClient.setQueryData(["userInfo",username], (oldData) => {
+                return{
+                    ...oldData,
+                    ...data.editedProfile,
+                }
+            });
+            if (queryClient.getQueryData(["profile", username])) {
+                queryClient.setQueryData(["profile", username], (oldData) => {
+                    if(oldData){
+                        return{
+                            ...oldData,
+                            ...data.editedProfile,
+                        }
+                    }
+                });
             }
-            }).catch((err) => {
-                console.log(err)
-                toast({title: "Error", description: "Something went wrong"})
-        })
+            // queryClient.invalidateQueries(["userInfo",username]);
+            toast({title: "Account updated", description: "Account has been edited successfully"})
+        },
+        onError: (err) => {
+            console.log(err)
+            toast({title: "Error", description: "Something went wrong"})
+        }
+    })
+
+    async function onSubmit(data) {
+        if(urls != undefined && urls?.url !== undefined){
+            await edgestore.productImages.confirmUpload({
+                url: urls.url,
+            });
+        }
+        updateUserMutation.mutate(data);
     } 
     
     return ( 

@@ -34,7 +34,7 @@ export async function POST(req) {
         }
 
         if (editedProfile) {
-            return new NextResponse(JSON.stringify({ message: "User profile edited" }), { status: 200 })
+            return new NextResponse(JSON.stringify({ message: "User profile edited",editedProfile:editedProfile }), { status: 200 })
         } else {
             return new NextResponse(JSON.stringify({ message: "Unable to edit user profile" }), { status: 500 })
         }
