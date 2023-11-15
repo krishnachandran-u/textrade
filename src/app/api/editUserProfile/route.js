@@ -12,6 +12,9 @@ export async function POST(req) {
     try {
 
         const { name,username, note, location, college, branch, profile_pic, phoneNo,password } = await req.json();
+        if(session.user.username !== username){
+            return new NextResponse(JSON.stringify({ message: "You can only edit your own profile." }), { status: 403 })
+        }
 
         let editedProfile = await prismadb.users.update({
             where: { username: username },
