@@ -58,16 +58,20 @@ export const authOptions = {
     newUser: "/signup"
   },
   callbacks: {
-    jwt(params){
-      if(params.user?.username){
-        params.token.id = params.user.id;
-        params.token.name = params.user.name;
-        params.token.username = params.user.username;
-        params.token.email = params.user.email;
-        params.token.image = params.user.profile_pic;
-        params.token.cartId = params.user.cart.id;
+    jwt({user,token,trigger,session}){
+      if(trigger == 'update'){
+        token.name = session.name;
+        token.image = session.image;
       }
-      return params.token;
+      if(user?.username){
+        token.id = user.id;
+        token.name = user.name;
+        token.username = user.username;
+        token.email = user.email;
+        token.image = user.profile_pic;
+        token.cartId = user.cart.id;
+      }
+      return token;
     },
     session({session, token}){
       session.user.id = token.id;

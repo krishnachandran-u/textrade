@@ -193,6 +193,10 @@ export default function EditProfile({params}){
                     }
                 });
             }
+            session.update({
+                name: data.editedProfile.name,
+                image: data.editedProfile.profile_pic,
+            });
             // queryClient.invalidateQueries(["userInfo",username]);
             toast({title: "Account updated", description: "Account has been edited successfully"})
         },
