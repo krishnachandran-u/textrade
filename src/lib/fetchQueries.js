@@ -14,6 +14,7 @@ export async function searchProducts(searchQuery) {
 export async function selectUserProducts(username) {
   try{
     const { data } = await axios.post(`/api/selectUserProducts`,{username});
+    console.log(data)
     return data;
   }
   catch(error){
@@ -47,6 +48,17 @@ export async function selectProduct(productId) {
 export async function selectUserInfo(username) {
   try{
     const { data } = await axios.post(`/api/selectUserInfo`,{username});
+    return data;
+  }
+  catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+export async function selectCart(cartId) {
+  try{
+    const { data } = await axios.post(`/api/selectCart`,{cartId});
     return data;
   }
   catch(error){
