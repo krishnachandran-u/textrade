@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import useServerSession from "@/lib/auth";
 
 export async function POST(req) {
+  const session = await useServerSession(req)
     try {
         const {cartId} = await req.json()
-        const session = await useServerSession(req)
         if(!session){
             console.log("You must be signed in to fetch cart products.")
             return new NextResponse(JSON.stringify({ message: "You must be signed in to fetch cart products." }), { status: 401 })
