@@ -40,13 +40,13 @@ import {
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
-import { DialogBox } from "@/components/VerifyEmailDialog"
 import { Toaster } from "@/components/ui/toaster"
 import { Textarea } from "@/components/ui/textarea"
 import { SingleImageDropzone } from "@/components/ProfileDropZone"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import { selectUserInfo } from "@/lib/fetchQueries"
+import SubmitButton from "@/components/SubmitButton"
 
 const FormSchema = z.object({
     name: z.string().min(2, {
@@ -102,16 +102,19 @@ export default function EditProfile({params}){
     const [file, setFile] = useState();
     const [progress, setProgress] = useState(0);
     const [urls, setUrls] = useState();
+    const [disableSubmit, setDisableSubmit] = useState(false);
 
     useEffect(() => {
         if (file && typeof file !== "string") {
             const uploadImage = async () =>{
+                setDisableSubmit(true);
                 const res = await edgestore.productImages.upload({
                     file,
                     options: {
                         temporary: true,
                     },
                     onProgressChange: (progress) => {
+                        if(progress == 100) setDisableSubmit(false);
                         setProgress(progress);
                     },
                 });
@@ -122,6 +125,7 @@ export default function EditProfile({params}){
             }
             uploadImage();
         }
+        else setDisableSubmit(false);
     },[file])
 
     const form = useForm({
@@ -197,16 +201,18 @@ export default function EditProfile({params}){
                 name: data.editedProfile.name,
                 image: data.editedProfile.profile_pic,
             });
+            setDisableSubmit(false);
             // queryClient.invalidateQueries(["userInfo",username]);
             toast({title: "Account updated", description: "Account has been edited successfully"})
         },
         onError: (err) => {
-            console.log(err)
+            setDisableSubmit(false);
             toast({title: "Error", description: "Something went wrong"})
         }
     })
 
     async function onSubmit(data) {
+        setDisableSubmit(true);
         if(urls != undefined && urls?.url !== undefined){
             await edgestore.productImages.confirmUpload({
                 url: urls.url,
@@ -461,7 +467,7 @@ export default function EditProfile({params}){
                                     control={form.control}
                                     name="password"
                                     render={({ field }) => (
-                                        <FormItem className="min-w-[330px]">
+                                        <FormItem className="min-w-[350px]">
                                             <FormLabel>Password</FormLabel>
                                             <FormControl>
                                                 <Input type='password' placeholder="********" {...field} />
@@ -474,7 +480,7 @@ export default function EditProfile({params}){
                                     control={form.control}
                                     name="confirmPassword"
                                     render={({ field }) => (
-                                        <FormItem className="min-w-[330px]">
+                                        <FormItem className="min-w-[350px]">
                                             <FormLabel>Confirm Password</FormLabel>
                                             <FormControl>
                                                 <Input type='password' placeholder="********" {...field} />
@@ -485,7 +491,7 @@ export default function EditProfile({params}){
                                 />
                             </div>
                         </div>
-                        <Button type="submit" className="px-14">Submit</Button>
+                        <SubmitButton pending={disableSubmit}>Save</SubmitButton>
                     </form> 
                         
                 </Form>
