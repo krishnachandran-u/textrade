@@ -2,19 +2,45 @@
 import CartCard from "@/components/CartCard";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation,useQueryClient } from "@tanstack/react-query";
 import { selectCart } from "@/lib/fetchQueries";
 import { useCartStore } from "@/lib/stores";
 import { useEffect } from "react";
+import axios from "axios";
+import { Toaster } from "@/components/ui/toaster"
+import { toast } from "@/components/ui/use-toast"
 
 export default function Cart(){
     const session = useSession();
-    const [itemsCount, totalPrice, setItemsCount, setTotalPrice] = useCartStore((state) => [state.itemsCount, state.totalPrice, state.setItemsCount, state.setTotalPrice]);
+    const [itemsCount, totalPrice, setItemsCount, setTotalPrice, removeItem] = useCartStore((state) => [state.itemsCount, state.totalPrice, state.setItemsCount, state.setTotalPrice, state.removeItem]);
+    const queryClient = useQueryClient();
     const cartId = session?.data?.user?.cartId;
     const cart = useQuery({ 
         queryKey: ["cart",cartId], 
         queryFn: () => selectCart(cartId),
         enabled : !!cartId
+    })
+    const removeFromCartMutation = useMutation({
+        mutationFn: async ({productId,price}) => {
+            if(cartId == undefined){
+                toast({title: "User session not found", description: "You must be signed in to remove from cart"})
+                throw new Error("User session not found")
+            }
+            if(productId == undefined || productId == null){
+                toast({title: "Product id not found", description: "Please provide a valid product id"})
+                throw new Error("Product id not found")
+            }
+            const response = await axios.post('/api/removeFromCart',{"cartId":cartId,"productId":productId});
+            return response.data;
+        },
+        onSuccess: (data,variables) => {
+            removeItem(parseInt(variables.price))
+            queryClient.invalidateQueries(["cart",cartId]);
+            toast({title: "Product removed from cart", description: "Product removed from cart successfully"})
+        },
+        onError:(error) => {
+            toast({title: "Error", description: error.message})
+        }
     })
     useEffect(() => {
         let itemsCount = 0;
@@ -45,7 +71,7 @@ export default function Cart(){
                                     {
                                         cart.data?.products?.map((product) => {
                                             return (
-                                                <CartCard product={product} key={product.id}/> 
+                                                <CartCard product={product} key={product.id} removeItem={removeFromCartMutation.mutate}/> 
                                             )
                                         })
                                     }
@@ -101,6 +127,7 @@ export default function Cart(){
                     </div>
                 </div>
             </div> 
+            <Toaster/>
         </main> 
     )
 }
