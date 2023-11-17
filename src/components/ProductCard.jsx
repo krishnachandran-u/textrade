@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils"
 import {MdOutlineAccountCircle} from 'react-icons/md'
 import { useRouter } from "next/navigation"
 
-export default function ProductCard({hideCart,disableCard,hideSeller,product}) {
-  const {name,price,images,description,seller} = product;
+export default function ProductCard({hideCart,disableCard,hideSeller,product,addToCart}) {
+  const {id,name,price,images,description,seller} = product;
   const router = useRouter();
   return(
     <Card className="min-w-[280px] hover:shadow-2xl relative" onClick={() => router.push(`/product/${product.id}`) }>
@@ -34,7 +34,10 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product}) {
             </div>
             <div className="flex justify-between mt-2 items-center">
               <div className='text-sm p-2 border-2 rounded-md'>{price}₹</div>
-              <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')}>
+              <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')} onClick={(e) => {
+                e.stopPropagation();
+                addToCart({productId:id,price:price})
+              }}>
                 <BsCartPlus/>
               </Button>
             </div>
