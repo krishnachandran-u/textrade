@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils"
 import {MdOutlineAccountCircle} from 'react-icons/md'
 import { useRouter } from "next/navigation"
   
-export default function HorCard({hideCart,disableCard,product,hideSeller}){
-  const {name,price,images,description,seller} = product;
+export default function HorCard({hideCart,disableCard,product,hideSeller,addToCart}){
+  const {id,name,price,images,description,seller} = product;
   const router = useRouter();
   return(
     <div className="min-w-[280px] hover:shadow-2xl relative border shadow rounded w-full">
@@ -27,7 +27,10 @@ export default function HorCard({hideCart,disableCard,product,hideSeller}){
             </div>
             <div className="flex justify-between mt-6 items-center">
               <div className='text-sm p-2 border-2 rounded-md'>{price}₹</div>
-              <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')}>
+              <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')} onClick={(e) => {
+                e.stopPropagation();
+                addToCart({productId:id,price:price})
+              }}>
                 <BsCartPlus />
               </Button>
             </div>
