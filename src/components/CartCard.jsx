@@ -5,12 +5,15 @@ import { Badge } from "@/components/ui/badge"
 import ContactNow from "./ContactNow";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation"
+import { IoIosClose } from "react-icons/io";
 
 export default function CartCard({product}) {
     const router = useRouter();
     return (
         <main>
-            <div className = "flex flex-row justify-between border hover:shadow-sm rounded-sm p-5 cursor-pointer" onClick={() => router.push(`/product/${product.id}`)} > 
+            <div className = "flex flex-row justify-center border hover:shadow-sm rounded-sm p-5 cursor-pointer" onClick={() => router.push(`/product/${product.id}`)} > 
+                <div className = "flex flex-col">
+                    <div className ="w-20 ml-auto"><IoIosClose className ="w-8 h-8 border p-1 shadow hover:bg-slate-200 transition duration-75"/></div>
                 <div className = "flex lg:flex-row flex-col">
                     <Image src={product.images[0].url} alt="Product image" width={200} height={200} className="overflow-hidden my-2 mx-auto sm:aspect-h-1 sm:aspect-w-1" />
                     <div className = "flex flex-col justify-between m-8 flex-wrap">
@@ -38,6 +41,7 @@ export default function CartCard({product}) {
                         </div>
                     </div>
                 </div> 
+                </div>
             </div>
         </main>
     )
