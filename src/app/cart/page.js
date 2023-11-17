@@ -4,17 +4,32 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { selectCart } from "@/lib/fetchQueries";
+import { useCartStore } from "@/lib/stores";
+import { useEffect } from "react";
 
 export default function Cart(){
     const session = useSession();
-    let itemsCount = 0;
-    let totalPrice = 0;
+    const [itemsCount, totalPrice, setItemsCount, setTotalPrice] = useCartStore((state) => [state.itemsCount, state.totalPrice, state.setItemsCount, state.setTotalPrice]);
     const cartId = session?.data?.user?.cartId;
     const cart = useQuery({ 
         queryKey: ["cart",cartId], 
         queryFn: () => selectCart(cartId),
         enabled : !!cartId
     })
+    useEffect(() => {
+        let itemsCount = 0;
+        let totalPrice = 0;
+
+        cart.data?.products?.forEach((product) => {
+        itemsCount += 1;
+        totalPrice += parseInt(product.price);
+        });
+
+        setItemsCount(itemsCount);
+        setTotalPrice(totalPrice);
+    }, [cart.data?.products]);
+
+
     if(cart.isLoading){
         return <div>Loading...</div>
     }
@@ -29,8 +44,6 @@ export default function Cart(){
                                 <div className = "sm:flex sm:flex-col gap-3">
                                     {
                                         cart.data?.products?.map((product) => {
-                                            itemsCount += 1;
-                                            totalPrice += parseInt(product.price);
                                             return (
                                                 <CartCard product={product} key={product.id}/> 
                                             )
@@ -62,11 +75,11 @@ export default function Cart(){
                 <div className = "flex flex-col border rounded shadow gap-2 p-2">
                         <div className = "flex flex-row justify-between gap-6">
                             <p>Items</p>
-                            <p>6</p>
+                            <p>{itemsCount}</p>
                         </div> 
                         <div className = "flex flex-row justify-between">
                             <p>Price</p>
-                            <p>₹3000</p>
+                            <p>₹{totalPrice}</p>
                         </div>
                 </div>
                 <Button className = "w-full justify-center">
@@ -79,8 +92,6 @@ export default function Cart(){
                         <div className = "sm:flex sm:flex-col flex flex-col gap-3">
                             {
                                 cart.data?.products?.map((product) => {
-                                    itemsCount += 1;
-                                    totalPrice += parseInt(product.price);
                                     return (
                                         <CartCard product={product} key={product.id}/> 
                                     )
