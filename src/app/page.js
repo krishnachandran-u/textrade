@@ -1,5 +1,5 @@
 'use client'
-import { useQuery,useMutation } from "@tanstack/react-query"
+import { useQuery, useMutation, useQueryClient} from "@tanstack/react-query"
 import axios from 'axios';
 import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/lib/fetchQueries";
@@ -17,6 +17,7 @@ export default function Home() {
   let search = searchParams.get('search');
   search = search == null ? "" : search;
   const addCartItem = useCartStore(state => state.addItem)
+  const queryClient = useQueryClient();
 
   const addToCartMutation = useMutation({
     mutationFn: async ({productId,price}) => {
@@ -33,6 +34,7 @@ export default function Home() {
     },
     onSuccess: (data,variables) => {
       addCartItem(parseInt(variables.price))
+      queryClient.invalidateQueries(["cart",cartId]);
       toast({title: "Product added to cart", description: "Product added to cart successfully"})
     },
     onError:(error) => {
