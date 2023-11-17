@@ -23,11 +23,11 @@ export default function Home() {
     mutationFn: async ({productId,price}) => {
       if(cartId == undefined){
         toast({title: "User session not found", description: "You must be signed in to add to cart"})
-        return
+        throw new Error("User session not found")
       }
       if(productId == undefined || productId == null){
         toast({title: "Product id not found", description: "Please provide a valid product id"})
-        return
+        throw new Error("Product id not found")
       }
       const response = await axios.post('/api/addToCart',{"cartId":cartId,"productId":productId});
       return response.data;
@@ -38,7 +38,6 @@ export default function Home() {
       toast({title: "Product added to cart", description: "Product added to cart successfully"})
     },
     onError:(error) => {
-      console.log(error)
       toast({title: "Error", description: error.message})
     }
   })
