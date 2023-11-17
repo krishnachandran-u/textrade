@@ -20,6 +20,7 @@ export default function Cart(){
         queryFn: () => selectCart(cartId),
         enabled : !!cartId
     })
+    const products = cart.data?.products;
     const removeFromCartMutation = useMutation({
         mutationFn: async ({productId,price}) => {
             if(cartId == undefined){
@@ -35,7 +36,12 @@ export default function Cart(){
         },
         onSuccess: (data,variables) => {
             removeItem(parseInt(variables.price))
-            queryClient.invalidateQueries(["cart",cartId]);
+            queryClient.setQueryData(["cart",cartId],(oldData) => {
+                return {
+                    ...oldData,
+                    products: oldData?.products?.filter((product) => product.id != variables.productId)
+                }
+            })
             toast({title: "Product removed from cart", description: "Product removed from cart successfully"})
         },
         onError:(error) => {
@@ -69,7 +75,7 @@ export default function Cart(){
                                 <h2 className = "text-3xl font-bold">Your Cart</h2>
                                 <div className = "sm:flex sm:flex-col gap-3">
                                     {
-                                        cart.data?.products?.map((product) => {
+                                        products?.map((product) => {
                                             return (
                                                 <CartCard product={product} key={product.id} removeItem={removeFromCartMutation.mutate}/> 
                                             )
@@ -117,9 +123,9 @@ export default function Cart(){
                         <h2 className = "text-3xl font-bold text-center m-2">Your Cart</h2>
                         <div className = "sm:flex sm:flex-col flex flex-col gap-3">
                             {
-                                cart.data?.products?.map((product) => {
+                                products?.map((product) => {
                                     return (
-                                        <CartCard product={product} key={product.id}/> 
+                                        <CartCard product={product} key={product.id} removeItem={removeFromCartMutation.mutate}/> 
                                     )
                                 })
                             }
