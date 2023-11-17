@@ -8,11 +8,13 @@ import { usePathname } from 'next/navigation'
 import Link from "next/link"
 import { AiOutlineLogin } from "react-icons/ai"
 import { useSession } from 'next-auth/react'
+import { useCartStore } from '@/lib/stores'
 
 const Navbar = () => {
   const pathname = usePathname()
   const showHeader = (pathname === '/login' || pathname === '/signup') ? false : true;
   const session = useSession();
+  const itemsCount = useCartStore(state => state.itemsCount)
   if(!showHeader) return null;
 
   return (
@@ -29,7 +31,7 @@ const Navbar = () => {
           </Link>
           <Link href = "/cart">
             <Button className="hidden sm:flex">
-              <BsCartCheck className='mr-2 h-4 w-4'/> Cart 
+              <BsCartCheck className='mr-2 h-4 w-4'/> Cart {itemsCount > 0 && <span className='ml-1'>({itemsCount})</span>}
             </Button>
           </Link>
         <div>
@@ -45,7 +47,7 @@ const Navbar = () => {
           }
         </div>
       </nav>
-      <nav className="sm:hidden fixed bottom-0 w-full border border-b-2 flex justify-evenly gap-5 p-2 items-center text-lg">
+      <nav className="sm:hidden fixed bottom-0 w-full border border-b-2 flex justify-evenly gap-5 p-2 items-center text-lg bg-white z-[100]">
           <Link href = "/sell">
             <Button>
               <TbShoppingCartDollar className='mr-2 h-4 w-4'/> Sell
@@ -56,7 +58,7 @@ const Navbar = () => {
           </Link>
           <Link href = "/cart">
             <Button>
-              <BsCartCheck className='mr-2 h-4 w-4'/> Cart 
+              <BsCartCheck className='mr-2 h-4 w-4'/> Cart {itemsCount > 0 && <span className='ml-1'>({itemsCount})</span>}
             </Button>
           </Link>  
       </nav>
