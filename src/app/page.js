@@ -7,6 +7,7 @@ import ParentCardSkeleton from "@/components/ParentCardSkeleton";
 import { Toaster } from "@/components/ui/toaster"
 import { useSession } from "next-auth/react";
 import { useAddToCartMutation } from "@/lib/mutations";
+import { useMemo } from "react";
 
 export default function Home() {
   const session = useSession();
