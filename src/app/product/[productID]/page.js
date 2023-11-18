@@ -6,21 +6,26 @@ import {BsCartPlus,BsTelephoneOutbound} from 'react-icons/bs'
 import { useQuery } from "@tanstack/react-query"
 import { selectProduct } from "@/lib/fetchQueries"
 import ContactNow from "@/components/ContactNow"
+import { useSession } from "next-auth/react"
+import { Toaster } from "@/components/ui/toaster"
+import { useAddToCartMutation } from "@/lib/mutations"
 
 export default function ProductPage({params}) {
-
+  const session = useSession();
   const productId = params.productID;
+  const addToCartMutation = useAddToCartMutation();
   const product= useQuery({ 
       queryKey: ["product", productId], 
       queryFn: () => selectProduct(productId),
       enabled : !!productId
   })
-  if(product.isLoading || !productId){
+  if(product.isLoading || !productId || session.status == "loading"){
       return <div>Loading...</div>
   }
   if(product.isError){
       return <div>Error</div>
   }
+  const cartId = session.data?.user?.cartId;
   const {name,description,price,seller,images} = product.data;
   return(
     <div className="flex w-full sm:mt-20 flex-col sm:flex-row justify-center">
@@ -42,11 +47,14 @@ export default function ProductPage({params}) {
           <Button className="flex text-md">
             <ContactNow className='mr-2 h-4 w-4'/>
           </Button>
-          <Button className="flex text-md">
+          <Button className="flex text-md"onClick={() => {
+            addToCartMutation.mutate({productId:productId, price:price, cartId:cartId})
+          }}>
             <BsCartPlus className='mr-2 h-4 w-4'/> Add to Cart 
           </Button>
         </div>
       </div>
+      <Toaster />
     </div>
   )
 }
