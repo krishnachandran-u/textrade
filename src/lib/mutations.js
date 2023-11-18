@@ -33,3 +33,51 @@ export function useAddToCartMutation(cartId) {
 
   return addToCartMutation;
 }
+
+export function useAddSoldMutatioon() {
+  const queryClient = useQueryClient();
+  const addSoldMuation = useMutation({
+    mutationFn: async ({productId,sellerName}) => {
+      const response = await axios.post('/api/editSoldStatus',{"productId":productId,"sellerName":sellerName});
+      return response.data;
+    },
+    onSuccess: (data,variables) => {
+      queryClient.setQueryData(["product",variables.productId],(oldData) => {
+        return {...oldData,sold:true}
+      })
+      if(queryClient.getQueryData(["products",{"sellerName":variables.sellerName}]) != undefined){
+        queryClient.setQueryData(["products",{"sellerName":variables.sellerName}],(oldData) => {
+          return oldData?.map((product) => {
+            if(product.id == variables.productId){
+              return {...product,sold:true}
+            }
+            return product
+          })
+        })
+      }
+      if(queryClient.getQueryData(["profile",variables.sellerName]) != undefined){
+        queryClient.setQueryData(["profile",variables.sellerName],(oldData) => {
+          return{
+            ...oldData,
+            products: oldData?.products?.map((product) => {
+              if(product.id == variables.productId){
+                return {...product,sold:true}
+              }
+              return product
+            })
+          }
+        })
+      }
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === 'products' && query.queryKey[1]?.searchParams != undefined 
+      })
+      toast({title: "Product marked as sold", description: "Sold status updated successfully"})
+    },
+    onError:(error) => {
+      toast({title: "Error", description: error.message})
+    }
+  });
+
+  return addSoldMuation;
+}

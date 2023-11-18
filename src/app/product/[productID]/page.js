@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { useAddToCartMutation } from "@/lib/mutations"
 import { useMemo } from "react"
 import { cn } from "@/lib/utils"
+import { useAddSoldMutatioon } from "@/lib/mutations"
 
 export default function ProductPage({params}) {
   const session = useSession();
@@ -21,6 +22,7 @@ export default function ProductPage({params}) {
   const cartId = useMemo(() => session.data?.user?.cartId, [session.data?.user?.cartId]);
   
   const addToCartMutation = useAddToCartMutation(cartId);
+  const addSoldMutation = useAddSoldMutatioon();
   const product= useQuery({ 
       queryKey: ["product", productId], 
       queryFn: () => selectProduct(productId),
@@ -63,7 +65,10 @@ export default function ProductPage({params}) {
           </div>
           :
           <div className={cn("flex gap-4 sm:mt-5 mt-3",sold ? "hidden" : "")}>
-            <Button className="flex text-md">
+            <Button className="flex text-md" onClick={() => {
+                addSoldMutation.mutate({productId,sellerName:seller?.username})
+              }
+            }>
               <IoCheckmarkDoneSharp className="mr-2 h-4 w-4"/> Mark as Sold
             </Button>
             <Button className="flex text-md"onClick={() => {
