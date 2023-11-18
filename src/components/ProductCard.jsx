@@ -36,7 +36,8 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product,add
               <div className='text-sm p-2 border-2 rounded-md'>{price}₹</div>
               <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')} onClick={(e) => {
                 e.stopPropagation();
-                addToCart({productId:id,price:price})
+                console.log(id)
+                addToCart(id)
               }}>
                 <BsCartPlus/>
               </Button>

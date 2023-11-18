@@ -29,7 +29,7 @@ export default function HorCard({hideCart,disableCard,product,hideSeller,addToCa
               <div className='text-sm p-2 border-2 rounded-md'>{price}₹</div>
               <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')} onClick={(e) => {
                 e.stopPropagation();
-                addToCart({productId:id,price:price})
+                addToCart(id)
               }}>
                 <BsCartPlus />
               </Button>

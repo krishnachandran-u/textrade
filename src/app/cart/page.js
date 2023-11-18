@@ -12,7 +12,7 @@ import { toast } from "@/components/ui/use-toast"
 
 export default function Cart(){
     const session = useSession();
-    const [itemsCount, totalPrice, setItemsCount, setTotalPrice, removeItem] = useCartStore((state) => [state.itemsCount, state.totalPrice, state.setItemsCount, state.setTotalPrice, state.removeItem]);
+    const [itemsCount, totalPrice, setItemsCount, setTotalPrice, removeItem, addItem] = useCartStore((state) => [state.itemsCount, state.totalPrice, state.setItemsCount, state.setTotalPrice, state.removeItem, state.addItem]);
     const queryClient = useQueryClient();
     const cartId = session?.data?.user?.cartId;
     const cart = useQuery({ 
@@ -53,8 +53,9 @@ export default function Cart(){
         let totalPrice = 0;
 
         cart.data?.products?.forEach((product) => {
-        itemsCount += 1;
-        totalPrice += parseInt(product.price);
+            itemsCount += 1;
+            totalPrice += parseInt(product.price);
+            addItem(product.id);
         });
 
         setItemsCount(itemsCount);

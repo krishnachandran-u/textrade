@@ -3,10 +3,21 @@ import { create } from 'zustand'
 export const useCartStore= create((set) => ({
   itemsCount: 0,
   totalPrice: 0,
-  addItem: (price) => set((state) => ({ 
-    itemsCount: state.itemsCount + 1,
-    totalPrice: state.totalPrice + price,
-  })),
+  products: [],
+  addItem: (productId) => set((state) => {
+    if(state.products.includes(productId)){
+      return({
+        itemsCount: state.itemsCount,
+        products: state.products,
+        
+      })
+    }
+    return ({ 
+      itemsCount: state.itemsCount + 1,
+      products: [...state.products, productId],
+    })
+  }),
+    
   removeItem: (price) => set((state) => ({ 
     itemsCount: state.itemsCount - 1,
     totalPrice: state.totalPrice - price,

@@ -4,24 +4,25 @@ import { useCartStore } from '@/lib/stores';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useAddToCartMutation(cartId) {
-  const [addCartItem] = useCartStore((state) => [state.addItem]);
+  const [addCartItem, products] = useCartStore((state) => [state.addItem,state.products]);
   const queryClient = useQueryClient();
 
   const addToCartMutation = useMutation({
-    mutationFn: async ({productId,price}) => {
+    mutationFn: async (productId) => {
       if(cartId == undefined){
-          toast({title: "User session not found", description: "You must be signed in to remove from cart"})
           throw new Error("User session not found")
       }
       if(productId == undefined || productId == null){
-          toast({title: "Product id not found", description: "Please provide a valid product id"})
           throw new Error("Product id not found")
+      }
+      if(products.includes(productId)){
+        throw new Error("Product already added to cart")
       }
       const response = await axios.post('/api/addToCart',{"cartId":cartId,"productId":productId});
       return response.data;
     },
-    onSuccess: (data,variables) => {
-      addCartItem(parseInt(variables.price))
+    onSuccess: (data,productId) => {
+      addCartItem(productId)
       queryClient.invalidateQueries(["cart",cartId]);
       toast({title: "Product added to cart", description: "Product added to cart successfully"})
     },
