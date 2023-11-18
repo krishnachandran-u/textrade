@@ -23,8 +23,6 @@ export const useCartStore= create((set) => ({
     totalPrice: state.totalPrice - price,
   })),
   reset: () => set((state) => {
-    console.log(state.itemsCount)
-    console.log(state.totalPrice)
     return {
     itemsCount: 0,
     totalPrice: 0,
