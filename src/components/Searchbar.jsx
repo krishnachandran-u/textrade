@@ -20,7 +20,7 @@ export default function Searchbar() {
   const router = useRouter();
   function onSubmit(data) {
     const searchQuery = encodeURI(data.search);
-    router.push(`?search=${searchQuery}`);
+    router.push(`/?search=${searchQuery}`);
   }
 
   return (
