@@ -6,6 +6,7 @@ import ContactNow from "./ContactNow";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { useRouter } from "next/navigation"
 import { IoIosClose } from "react-icons/io";
+import Link from "next/link"
 
 export default function CartCard({product,removeItem}) {
     const router = useRouter();
@@ -36,7 +37,10 @@ export default function CartCard({product,removeItem}) {
                                 <p>{product.seller.username}</p>
                             </div>
                         </div>
-                        <div className = "flex sm:flex-row flex-col justify-between items-center ml-5 m-4 gap-2">
+                        <div className = "flex sm:flex-row flex-col justify-between items-center ml-5 m-4 gap-2"
+                            onClick = {(e) => {
+                                e.stopPropagation();
+                            }}>
                             <Badge className = "rounded-sm p-2 text-2xl justify-center" variant = "outline">₹{product.price}</Badge>
                             <div className = "sm:flex items-center justify-between">
                                 <Button className = "flex flex-row justify-between gap-2">
