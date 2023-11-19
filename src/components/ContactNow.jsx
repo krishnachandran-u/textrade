@@ -36,9 +36,9 @@ export default function ContactNow() {
                 <DialogTrigger>
                     <div>
                         <div className = "sm:flex items-center justify-between">
-                            <Button className = "flex flex-row justify-between gap-2">
-                                <BiPhoneCall /> 
-                                <p className = "p-10 justify-center items-center">Contact Now</p>
+                            <Button className = "flex flex-row justify-between items-center gap-2">
+                                <BiPhoneCall className = ""/> 
+                                <p className = "justify-center items-center hidden md:flex">Contact Now</p>
                             </Button>
                         </div>
                     </div>                    
