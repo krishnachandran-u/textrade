@@ -19,9 +19,6 @@ export default function Home() {
   const addToCartMutation = useAddToCartMutation(cartId);
   const products = useQuery({ queryKey: ["products",{searchParams: search}], queryFn: () => searchProducts(search) })
 
-  if(products.isLoading){
-    return <div>Loading...</div>
-  }
   if(products.isError){
     return <div>Error</div>
   }
@@ -29,9 +26,13 @@ export default function Home() {
     <>
       <div className="flex flex-wrap gap-2 p-4 mb-20 sm:mb-0">
         {
-          products?.data?.map((product) => {
+          !products.isLoading ?  products?.data?.map((product) => {
             return <ParentCard key={product.id} product={product} disableCard={product.sold} addToCart={addToCartMutation.mutate}/>
           })
+          :
+          Array.from({ length: 10 }).map((_, i) => (
+            <ParentCardSkeleton key={i} />
+          ))
         }
       </div>
       <Toaster />
