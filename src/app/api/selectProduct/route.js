@@ -15,6 +15,7 @@ export async function GET(req) {
               price: true,
               location: true,
               description: true,
+              sold: true,
               seller: {
                   select: {
                       username: true,

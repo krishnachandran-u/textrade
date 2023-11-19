@@ -1,48 +1,24 @@
 'use client'
-import { useQuery, useMutation, useQueryClient} from "@tanstack/react-query"
-import axios from 'axios';
+import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/lib/fetchQueries";
 import ParentCard from "@/components/ParentCard";
 import ParentCardSkeleton from "@/components/ParentCardSkeleton";
 import { Toaster } from "@/components/ui/toaster"
-import { toast } from "@/components/ui/use-toast"
 import { useSession } from "next-auth/react";
-import { useCartStore } from "@/lib/stores";
+import { useAddToCartMutation } from "@/lib/mutations";
+import { useMemo } from "react";
 
 export default function Home() {
   const session = useSession();
-  const cartId = session.data?.user?.cartId;
   const searchParams = useSearchParams();
   let search = searchParams.get('search');
   search = search == null ? "" : search;
-  const addCartItem = useCartStore(state => state.addItem)
-  const queryClient = useQueryClient();
-
-  const addToCartMutation = useMutation({
-    mutationFn: async ({productId,price}) => {
-      if(cartId == undefined){
-        toast({title: "User session not found", description: "You must be signed in to add to cart"})
-        throw new Error("User session not found")
-      }
-      if(productId == undefined || productId == null){
-        toast({title: "Product id not found", description: "Please provide a valid product id"})
-        throw new Error("Product id not found")
-      }
-      const response = await axios.post('/api/addToCart',{"cartId":cartId,"productId":productId});
-      return response.data;
-    },
-    onSuccess: (data,variables) => {
-      addCartItem(parseInt(variables.price))
-      queryClient.invalidateQueries(["cart",cartId]);
-      toast({title: "Product added to cart", description: "Product added to cart successfully"})
-    },
-    onError:(error) => {
-      toast({title: "Error", description: error.message})
-    }
-  })
-
+  const cartId = useMemo(() => session.data?.user?.cartId, [session.data?.user?.cartId]);
+  
+  const addToCartMutation = useAddToCartMutation(cartId);
   const products = useQuery({ queryKey: ["products",{searchParams: search}], queryFn: () => searchProducts(search) })
+
   if(products.isLoading){
     return <div>Loading...</div>
   }

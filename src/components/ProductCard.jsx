@@ -33,10 +33,10 @@ export default function ProductCard({hideCart,disableCard,hideSeller,product,add
               <span className="text-slate-500 text-sm">{seller?.username}</span>
             </div>
             <div className="flex justify-between mt-2 items-center">
-              <div className='text-sm p-2 border-2 rounded-md'>{price}₹</div>
+              <div className='text-sm p-2 border-2 rounded-md'>₹{price}</div>
               <Button className={cn(hideCart?'hidden':"",'rounded-md text-md')} onClick={(e) => {
                 e.stopPropagation();
-                addToCart({productId:id,price:price})
+                addToCart(id)
               }}>
                 <BsCartPlus/>
               </Button>

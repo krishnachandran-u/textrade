@@ -28,7 +28,7 @@ const FormSchema = z.object({
     message: "Discription must be at least 15 characters.",
   }),
   price: z.number().gte(10, {
-    message: "price must be at least 5₹.",
+    message: "price must be at least ₹5.",
   }),
 })
 
