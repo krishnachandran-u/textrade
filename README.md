@@ -8,8 +8,9 @@ Textrade: Your premier destination for a seamless, service-oriented exchange pla
 
 1. [Mohamed Irfan](https://github.com/MohamedIrfanAM)
 2. [Krishnachandran U](https://github.com/krishnachandran-u)
-3. [Sreelal S S](https://github.com/sreelaltom)
-4. [Naveen Manoj](https://github.com/neevan0842)
+3. Liyan CKM
+4. Meenakshy Sudhir
+5. Kishlay Yadav
 
 ## Team ID
 
